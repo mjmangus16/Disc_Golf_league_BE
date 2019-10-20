@@ -1,0 +1,19 @@
+{
+  "name": "disc_golf_league_be",
+  "version": "1.0.0",
+  "description": "An app that helps disc golfers manage leagues",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjmangus16/Disc_Golf_league_BE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjmangus16/Disc_Golf_league_BE/issues"
+  },
+  "homepage": "https://github.com/mjmangus16/Disc_Golf_league_BE#readme"
+}
