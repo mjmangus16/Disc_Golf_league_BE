@@ -22,16 +22,17 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/create", (req, res) => {
+router.post("/signup", (req, res) => {
   const newUser = {
-    username: req.body.username,
-    password: req.body.password
+    email: req.body.email,
+    password: req.body.password,
+    f_name: req.body.f_name,
+    l_name: req.body.l_name
   };
 
   newUser.password = bcrypt.hashSync(newUser.password, 10);
   db.addUser(newUser)
     .then(addedUser => {
-      console.log(addedUser.username);
       res.status(201).json({
         message: `${addedUser.username} has been created successfully!`
       });
@@ -44,24 +45,23 @@ router.post("/create", (req, res) => {
     });
 });
 
-router.post("/login", (req, res) => {
+router.post("/signin", (req, res) => {
   const user = {
-    username: req.body.username,
+    email: req.body.email,
     password: req.body.password
   };
 
   db.getUserByUsername(user.username).then(foundUser => {
-    console.log(foundUser);
     if (foundUser && bcrypt.compareSync(user.password, foundUser.password)) {
       const token = generateToken(user);
       res.status(200).json({
         token: token,
-        username: foundUser.username
+        email: foundUser.username
       });
     } else {
       if (!foundUser) {
         res.status(400).json({
-          message: `${user.username} does not exist in our database.`
+          message: `${user.email} does not exist in our database.`
         });
       } else if (
         foundUser &&
@@ -82,11 +82,11 @@ router.delete("/", (req, res) => {
       db.deleteUser(id).then(deletedUser => {
         if (deletedUser) {
           res.status(200).json({
-            message: `${foundUser.username} was deleted from the database.`
+            message: `${foundUser.email} was deleted from the database.`
           });
         } else {
           res.status(400).json({
-            message: `There was an error trying to delete ${foundUser.username} from the database.`
+            message: `There was an error trying to delete ${foundUser.email} from the database.`
           });
         }
       });
