@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const validateSignup = require("../../validation/signup");
+const validateSignin = require("../../validation/signin");
 
 router.get("/test", (req, res) => {
   res.send("The users router is working!");
@@ -43,41 +44,59 @@ router.post("/signup", (req, res) => {
   db.addUser(newUser)
     .then(addedUser => {
       res.status(201).json({
-        message: `Your account has been created successfully!`
+        message: `Your account has been created successfully! Please sign in.`
+        // email: addedUser.email,
+        // f_name: addedUser.f_name,
+        // l_name: addedUser.l_name,
+        // org_name: addedUser.org_name,
+        // user_id: addedUser.user_id
       });
     })
     .catch(error => {
       console.log(error);
       res.status(500).json({
-        message: `There was an issue creating this account. Please try again.`
+        ...errors,
+        signup_message: `There was an issue creating this account. Please try again.`
       });
     });
 });
 
 router.post("/signin", (req, res) => {
+  const { errors, isValid } = validateSignin(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const user = {
     email: req.body.email,
     password: req.body.password
   };
 
-  db.getUserByUsername(user.username).then(foundUser => {
+  db.getUserByEmail(user.email).then(foundUser => {
     if (foundUser && bcrypt.compareSync(user.password, foundUser.password)) {
       const token = generateToken(user);
       res.status(200).json({
         token: token,
-        email: foundUser.username
+        email: foundUser.email,
+        f_name: foundUser.f_name,
+        l_name: foundUser.l_name,
+        org_name: foundUser.org_name,
+        user_id: foundUser.user_id
       });
     } else {
       if (!foundUser) {
         res.status(400).json({
-          message: `${user.email} does not exist in our database.`
+          ...errors,
+          signin_message: `${user.email} does not exist in our database.`
         });
       } else if (
         foundUser &&
         !bcrypt.compareSync(user.password, foundUser.password)
       ) {
         res.status(400).json({
-          message: `There was an error logging in. Please try again`
+          ...errors,
+          signin_message: `There was an error logging in. Please try again`
         });
       }
     }
@@ -111,7 +130,7 @@ function generateToken(user) {
   // console.log("user: ", user);
   const jwtPayload = {
     subject: user.id,
-    username: user.username
+    email: user.email
   };
 
   const jwtSecret = process.env.JWT_SECRET || "123789456!";

@@ -5,7 +5,7 @@ module.exports = {
   getUserById,
   addUser,
   deleteUser,
-  getUserByUsername
+  getUserByEmail
 };
 
 function getUsers() {
@@ -18,9 +18,9 @@ function getUserById(id) {
     .first();
 }
 
-function getUserByUsername(username) {
+function getUserByEmail(email) {
   return db("users")
-    .where("username", username)
+    .where("email", email)
     .first();
 }
 
