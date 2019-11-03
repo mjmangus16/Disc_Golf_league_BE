@@ -45,11 +45,6 @@ router.post("/signup", (req, res) => {
     .then(addedUser => {
       res.status(201).json({
         message: `Your account has been created successfully! Please sign in.`
-        // email: addedUser.email,
-        // f_name: addedUser.f_name,
-        // l_name: addedUser.l_name,
-        // org_name: addedUser.org_name,
-        // user_id: addedUser.user_id
       });
     })
     .catch(error => {
@@ -75,14 +70,17 @@ router.post("/signin", (req, res) => {
 
   db.getUserByEmail(user.email).then(foundUser => {
     if (foundUser && bcrypt.compareSync(user.password, foundUser.password)) {
-      const token = generateToken(user);
-      res.status(200).json({
-        token: token,
-        email: foundUser.email,
-        f_name: foundUser.f_name,
-        l_name: foundUser.l_name,
-        org_name: foundUser.org_name,
-        user_id: foundUser.user_id
+      const payload = {
+        id: user.id,
+        email: user.email
+      };
+
+      // Sign Token
+      jwt.sign(payload, "dev_key_001", { expiresIn: 7200 }, (err, token) => {
+        res.status(200).json({
+          success: true,
+          token: "Bearer " + token
+        });
       });
     } else {
       if (!foundUser) {
@@ -126,19 +124,19 @@ router.delete("/", (req, res) => {
   });
 });
 
-function generateToken(user) {
-  // console.log("user: ", user);
-  const jwtPayload = {
-    subject: user.id,
-    email: user.email
-  };
+// function generateToken(user) {
+//   // console.log("user: ", user);
+//   const jwtPayload = {
+//     subject: user.id,
+//     email: user.email
+//   };
 
-  const jwtSecret = process.env.JWT_SECRET || "123789456!";
-  const jwtOptions = {
-    expiresIn: "1d"
-  };
+//   const jwtSecret = process.env.JWT_SECRET || "123789456!";
+//   const jwtOptions = {
+//     expiresIn: "1d"
+//   };
 
-  return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
-}
+//   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+// }
 
 module.exports = router;
