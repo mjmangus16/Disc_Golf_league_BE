@@ -3,6 +3,8 @@ const db = require("./users-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+const validateSignup = require("../../validation/signup");
+
 router.get("/test", (req, res) => {
   res.send("The users router is working!");
 });
@@ -23,7 +25,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
+  const { errors, isValid } = validateSignup(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const newUser = {
+    org_name: req.body.org_name,
     email: req.body.email,
     password: req.body.password,
     f_name: req.body.f_name,
@@ -34,7 +43,7 @@ router.post("/signup", (req, res) => {
   db.addUser(newUser)
     .then(addedUser => {
       res.status(201).json({
-        message: `${addedUser.username} has been created successfully!`
+        message: `Your account has been created successfully!`
       });
     })
     .catch(error => {
