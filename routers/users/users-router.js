@@ -2,6 +2,7 @@ const router = require("express").Router();
 const db = require("./users-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const restricted = require("../../middleware/restricted");
 
 const validateSignup = require("../../validation/signup");
 const validateSignin = require("../../validation/signin");
@@ -25,7 +26,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/email/:email", (req, res) => {
+router.get("/email/:email", restricted, (req, res) => {
   const { email } = req.params;
   db.getUserByEmail(email)
     .then(user => {
@@ -103,7 +104,7 @@ router.post("/signin", (req, res) => {
       jwt.sign(payload, "dev_key_001", { expiresIn: 7200 }, (err, token) => {
         res.status(200).json({
           success: true,
-          token: "Bearer " + token
+          token: token
         });
       });
     } else {
