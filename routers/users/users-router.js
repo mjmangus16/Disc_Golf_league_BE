@@ -25,6 +25,30 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/email/:email", (req, res) => {
+  const { email } = req.params;
+  db.getUserByEmail(email)
+    .then(user => {
+      if (user) {
+        res.status(200).json({
+          user_id: user.user_id,
+          email: user.email,
+          f_name: user.f_name,
+          l_name: user.l_name,
+          org_name: user.org_name
+        });
+      } else {
+        res
+          .status(500)
+          .json({ error: "That user does not exist in our database" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Server error getting that user" });
+    });
+});
+
 router.post("/signup", (req, res) => {
   const { errors, isValid } = validateSignup(req.body);
 
@@ -123,20 +147,5 @@ router.delete("/", (req, res) => {
     }
   });
 });
-
-// function generateToken(user) {
-//   // console.log("user: ", user);
-//   const jwtPayload = {
-//     subject: user.id,
-//     email: user.email
-//   };
-
-//   const jwtSecret = process.env.JWT_SECRET || "123789456!";
-//   const jwtOptions = {
-//     expiresIn: "1d"
-//   };
-
-//   return jwt.sign(jwtPayload, jwtSecret, jwtOptions);
-// }
 
 module.exports = router;
