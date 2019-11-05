@@ -6,6 +6,7 @@ const restricted = require("../../middleware/restricted");
 
 const validateSignup = require("../../validation/signup");
 const validateSignin = require("../../validation/signin");
+const validateUpdateUser = require("../../validation/updateUser");
 
 router.get("/test", (req, res) => {
   res.send("The users router is working!");
@@ -23,30 +24,6 @@ router.get("/", (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({ error: "Server error getting users" });
-    });
-});
-
-router.get("/email/:email", restricted, (req, res) => {
-  const { email } = req.params;
-  db.getUserByEmail(email)
-    .then(user => {
-      if (user) {
-        res.status(200).json({
-          user_id: user.user_id,
-          email: user.email,
-          f_name: user.f_name,
-          l_name: user.l_name,
-          org_name: user.org_name
-        });
-      } else {
-        res
-          .status(500)
-          .json({ error: "That user does not exist in our database" });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: "Server error getting that user" });
     });
 });
 
@@ -101,7 +78,7 @@ router.post("/signin", (req, res) => {
       };
 
       // Sign Token
-      jwt.sign(payload, "dev_key_001", { expiresIn: 7200 }, (err, token) => {
+      jwt.sign(payload, "dev_key_001", { expiresIn: 14400 }, (err, token) => {
         res.status(200).json({
           success: true,
           token: token
@@ -126,6 +103,68 @@ router.post("/signin", (req, res) => {
   });
 });
 
+router.get("/email/:email", restricted, (req, res) => {
+  const { email } = req.params;
+  db.getUserByEmail(email)
+    .then(user => {
+      if (user) {
+        res.status(200).json({
+          user_id: user.user_id,
+          email: user.email,
+          f_name: user.f_name,
+          l_name: user.l_name,
+          org_name: user.org_name
+        });
+      } else {
+        res
+          .status(500)
+          .json({ email: "That user does not exist in our database" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ email: "Server error getting that user" });
+    });
+});
+
+router.put("/update/:id", restricted, (req, res) => {
+  const { errors, isValid } = validateUpdateUser(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const id = req.params.id;
+  db.getUserById(id)
+    .then(user => {
+      if (user) {
+        db.updateUser(id, req.body)
+          .then(updatedUser => {
+            res.status(200).json({
+              f_name: updatedUser.f_name,
+              l_name: updatedUser.l_name,
+              org_name: updatedUser.org_name
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(500).json({
+              update:
+                "There was an error trying to update the user information. Please try again later."
+            });
+          });
+      } else {
+        res
+          .status(500)
+          .json({ update: "That user does not exist in our database" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ update: "Server error finding that user" });
+    });
+});
+
 router.delete("/", (req, res) => {
   const id = req.body.id;
   db.getUserById(id).then(foundUser => {
@@ -137,13 +176,13 @@ router.delete("/", (req, res) => {
           });
         } else {
           res.status(400).json({
-            message: `There was an error trying to delete ${foundUser.email} from the database.`
+            delete: `There was an error trying to delete ${foundUser.email} from the database.`
           });
         }
       });
     } else {
       res.status(400).json({
-        message: "That user does not exist in our database."
+        delete: "That user does not exist in our database."
       });
     }
   });

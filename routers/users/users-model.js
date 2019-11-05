@@ -5,7 +5,8 @@ module.exports = {
   getUserById,
   addUser,
   deleteUser,
-  getUserByEmail
+  getUserByEmail,
+  updateUser
 };
 
 function getUsers() {
@@ -29,6 +30,15 @@ function addUser(newUser) {
     .insert(newUser, "user_id")
     .then(user => {
       const [id] = user;
+      return getUserById(id).first();
+    });
+}
+
+function updateUser(id, changes) {
+  return db("users")
+    .where("user_id", id)
+    .update(changes, "*")
+    .then(user => {
       return getUserById(id).first();
     });
 }
