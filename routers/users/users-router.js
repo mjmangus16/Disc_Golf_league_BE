@@ -165,8 +165,8 @@ router.put("/update/:id", restricted, (req, res) => {
     });
 });
 
-router.delete("/", (req, res) => {
-  const id = req.body.id;
+router.delete("/delete/:id", (req, res) => {
+  const { id } = req.params;
   db.getUserById(id).then(foundUser => {
     if (foundUser) {
       db.deleteUser(id).then(deletedUser => {
