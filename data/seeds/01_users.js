@@ -11,7 +11,8 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user1",
           l_name: "lastName1",
-          org_name: "Organization 1"
+          org_name: "Organization 1",
+          admin: true
         },
         {
           user_id: 2,
@@ -19,7 +20,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user2",
           l_name: "lastName2",
-          org_name: "Organization 2"
+          admin: false
         },
         {
           user_id: 3,
@@ -27,7 +28,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user3",
           l_name: "lastName3",
-          org_name: "Organization 3"
+          admin: false
         },
         {
           user_id: 4,
@@ -35,7 +36,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user4",
           l_name: "lastName4",
-          org_name: "Organization 4"
+          admin: false
         },
         {
           user_id: 5,
@@ -43,7 +44,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user5",
           l_name: "lastName5",
-          org_name: "Organization 5"
+          admin: false
         },
         {
           user_id: 6,
@@ -51,7 +52,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user6",
           l_name: "lastName6",
-          org_name: "Organization 6"
+          admin: false
         },
         {
           user_id: 7,
@@ -59,7 +60,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user7",
           l_name: "lastName7",
-          org_name: "Organization 7"
+          admin: false
         },
         {
           user_id: 8,
@@ -67,7 +68,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user8",
           l_name: "lastName8",
-          org_name: "Organization 8"
+          admin: false
         },
         {
           user_id: 9,
@@ -75,7 +76,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user9",
           l_name: "lastName9",
-          org_name: "Organization 9"
+          admin: false
         },
         {
           user_id: 10,
@@ -83,7 +84,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user10",
           l_name: "lastName10",
-          org_name: "Organization 10"
+          admin: false
         },
         {
           user_id: 11,
@@ -91,7 +92,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user11",
           l_name: "lastName11",
-          org_name: "Organization 11"
+          admin: false
         },
         {
           user_id: 12,
@@ -99,7 +100,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user12",
           l_name: "lastName12",
-          org_name: "Organization 12"
+          admin: false
         },
         {
           user_id: 13,
@@ -107,7 +108,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user13",
           l_name: "lastName13",
-          org_name: "Organization 13"
+          admin: false
         },
         {
           user_id: 14,
@@ -115,7 +116,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user14",
           l_name: "lastName14",
-          org_name: "Organization 14"
+          admin: false
         },
         {
           user_id: 15,
@@ -123,7 +124,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user15",
           l_name: "lastName15",
-          org_name: "Organization 15"
+          admin: false
         },
         {
           user_id: 16,
@@ -131,7 +132,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user16",
           l_name: "lastName16",
-          org_name: "Organization 16"
+          admin: false
         },
         {
           user_id: 17,
@@ -139,7 +140,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user17",
           l_name: "lastName17",
-          org_name: "Organization 17"
+          admin: false
         },
         {
           user_id: 18,
@@ -147,7 +148,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user18",
           l_name: "lastName18",
-          org_name: "Organization 18"
+          admin: false
         },
         {
           user_id: 19,
@@ -155,7 +156,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user19",
           l_name: "lastName19",
-          org_name: "Organization 19"
+          admin: false
         },
         {
           user_id: 20,
@@ -163,7 +164,7 @@ exports.seed = function(knex) {
           password: "123456",
           f_name: "user20",
           l_name: "lastName20",
-          org_name: "Organization 20"
+          admin: false
         }
       ]);
     });

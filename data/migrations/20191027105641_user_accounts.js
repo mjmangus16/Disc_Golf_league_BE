@@ -9,6 +9,10 @@ exports.up = function(knex) {
     users.string("f_name").notNullable();
     users.string("l_name").notNullable();
     users.string("org_name");
+    users
+      .boolean("admin")
+      .defaultTo(false)
+      .notNullable();
   });
 };
 
