@@ -60,7 +60,7 @@ exports.seed = function(knex) {
           league_id: 4,
           relationship_id: 1573342325931,
           name: "WNY Random Draw Doubles at ECP",
-          year: 2018,
+          year: 2019,
           type: "Doubles",
           state: "NY",
           zip: 14224,
