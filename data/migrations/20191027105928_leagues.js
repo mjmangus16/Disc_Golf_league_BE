@@ -14,7 +14,7 @@ exports.up = function(knex) {
     leagues
       .boolean("active")
       .defaultTo(false)
-      .notNullale();
+      .notNullable();
     leagues.text("contact", "longtext");
     leagues.text("additional", "longtext");
     leagues.text("description", "longtext");

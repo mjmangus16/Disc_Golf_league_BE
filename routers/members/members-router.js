@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   db.getMembers()
     .then(members => {
       if (members.length > 0) {
-        res.status(200).json(getMembers);
+        res.status(200).json(members);
       } else {
         res.status(500).json({ error: "There are no members available" });
       }
