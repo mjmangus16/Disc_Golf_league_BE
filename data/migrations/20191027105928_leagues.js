@@ -13,7 +13,7 @@ exports.up = function(knex) {
     leagues.json("schedule");
     leagues
       .boolean("active")
-      .defaultTo(false)
+      .defaultTo(true)
       .notNullable();
     leagues.text("contact", "longtext");
     leagues.text("additional", "longtext");

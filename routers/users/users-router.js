@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const restricted = require("../../middleware/restricted");
 
-const validateSignup = require("../../validation/signup");
-const validateSignin = require("../../validation/signin");
-const validateUpdateUser = require("../../validation/updateUser");
+const validateSignup = require("../../validation/users/signup");
+const validateSignin = require("../../validation/users/signin");
+const validateUpdateUser = require("../../validation/users/updateUser");
 
 router.get("/test", (req, res) => {
   res.send("The users router is working!");
@@ -39,7 +39,8 @@ router.post("/signup", (req, res) => {
     email: req.body.email,
     password: req.body.password,
     f_name: req.body.f_name,
-    l_name: req.body.l_name
+    l_name: req.body.l_name,
+    admin: req.body.admin
   };
 
   newUser.password = bcrypt.hashSync(newUser.password, 10);
@@ -77,8 +78,9 @@ router.post("/signin", (req, res) => {
 
     if (foundUser) {
       const payload = {
-        id: user.id,
-        email: user.email
+        user_id: foundUser.user_id,
+        email: foundUser.email,
+        admin: foundUser.admin
       };
 
       // Sign Token

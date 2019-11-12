@@ -8,13 +8,11 @@ module.exports = (req, res, next) => {
     jwt.verify(token, secret, {}, (err, decoded) => {
       if (err) {
         //invalid token
-        res
-          .status(401)
-          .json({
-            error:
-              "There was an issue with authorizing your account. Please log back in and try again."
-          });
-      } else {
+        res.status(401).json({
+          error:
+            "There was an issue with authorizing your account. Please log back in and try again."
+        });
+      } else if (decoded.admin) {
         //valid token
 
         req.jwt = {
@@ -24,6 +22,8 @@ module.exports = (req, res, next) => {
         };
 
         next();
+      } else {
+        res.status(401).json({ error: "Only an admin can access this data" });
       }
     });
   } else {
