@@ -23,12 +23,17 @@ module.exports = (req, res, next) => {
 
         next();
       } else {
-        res.status(401).json({ error: "Only an admin can access this data" });
+        res
+          .status(401)
+          .json({
+            error:
+              "You must be a league manager to have access to this feature."
+          });
       }
     });
   } else {
     res
       .status(401)
-      .json({ error: "You must be logged in to access this information." });
+      .json({ error: "You must be logged in to have access to this feature." });
   }
 };

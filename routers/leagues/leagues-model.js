@@ -3,7 +3,11 @@ const db = require("../../data/dbConfig");
 module.exports = {
   getLeagues,
   getLeagueById,
-  createLeague
+  createLeague,
+  updateLeague,
+  deleteLeague,
+  getLeaguesByOwnerId,
+  getLeaguesByMemberId
 };
 
 function getLeagues() {
@@ -23,4 +27,60 @@ function createLeague(newLeague) {
       const [id] = league;
       return getLeagueById(id).first();
     });
+}
+
+function updateLeague(league_id, changes) {
+  return db("leagues")
+    .where({ league_id })
+    .update(changes, "*")
+    .then(id => {
+      return getLeagueById(id);
+    });
+}
+
+async function deleteLeague(league_id) {
+  await db("leagues")
+    .where("league_id", league_id)
+    .del();
+  await db("members")
+    .where("league_id", league_id)
+    .del();
+  const rounds = await db("rounds")
+    .where("league_id", league_id)
+    .map(round => round.round_id);
+  await rounds.forEach(r => {
+    db("participants")
+      .where("round_id", r)
+      .del();
+  });
+  await db("rounds")
+    .where("league_id", league_id)
+    .del();
+}
+
+async function getLeaguesByOwnerId(owner_id) {
+  const leagues = await db("leagues").where("owner_id", owner_id);
+
+  const container = await leagues.map(league => {
+    return {
+      league_id: league.league_id,
+      name: league.name,
+      type: league.type,
+      state: league.state,
+      zip: league.zip,
+      location: league.location,
+      active: league.active
+    };
+  });
+  return container;
+}
+
+async function getLeaguesByMemberId(user_id) {
+  const members = await db("members").where("user_id", user_id);
+  console.log(members);
+  const leagues = members.map(member =>
+    db(leagues).where("league_id", member.league_id)
+  );
+
+  return leagues;
 }
