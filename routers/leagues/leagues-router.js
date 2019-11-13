@@ -167,8 +167,16 @@ router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
   if (league) {
     if (league.owner_id === req.jwt.user_id) {
       db.updateLeague(req.params.league_id, { ...league, ...req.body })
-        .then(updatedLeague => {
-          res.status(200).json(updatedLeague);
+        .then(success => {
+          if (success) {
+            res.status(200).json({
+              message: `We were able to successfully update the information for the ${league.name} league.`
+            });
+          } else {
+            res
+              .status(500)
+              .json({ error: "There was an issue updating that league." });
+          }
         })
         .catch(err => {
           console.log(err);

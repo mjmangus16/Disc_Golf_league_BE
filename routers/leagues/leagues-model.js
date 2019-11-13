@@ -33,8 +33,12 @@ function updateLeague(league_id, changes) {
   return db("leagues")
     .where({ league_id })
     .update(changes, "*")
-    .then(id => {
-      return getLeagueById(id);
+    .then(success => {
+      if (success) {
+        return true;
+      } else {
+        return false;
+      }
     });
 }
 

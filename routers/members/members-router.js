@@ -79,4 +79,14 @@ router.post("/add", restrictedAdmin, async (req, res) => {
   }
 });
 
+// TYPE:  POST
+// ROUTE:   /api/members/add
+// DESCRIPTION: Adds a member to a league
+
+router.put("/update/:member_id", restrictedAdmin, (req, res) => {
+  db.connectMemberToUser(req.params.member_id, req.body.email).then(result =>
+    res.status(result.status).json(result)
+  );
+});
+
 module.exports = router;
