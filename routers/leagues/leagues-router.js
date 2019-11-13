@@ -30,6 +30,7 @@ router.get("/getLeagues", (req, res) => {
           return {
             league_id: league.league_id,
             name: league.name,
+            year: league.year,
             type: league.type,
             state: league.state,
             zip: league.zip,
@@ -65,16 +66,31 @@ router.get("/id/:league_id", (req, res) => {
     });
 });
 
-router.get("/owner/:owner_id", restrictedAdmin, async (req, res) => {
-  const leagues = await db.getLeaguesByOwnerId(req.params.owner_id);
+router.get("/owner", restrictedAdmin, async (req, res) => {
+  let leagues = await db.getLeaguesByOwnerId(req.jwt.user_id);
 
   res.status(200).json(leagues);
 });
 
-router.get("/user", restricted, (req, res) => {
-  db.getLeaguesByMemberId(req.jwt.user_id).then(leagues => {
-    res.status(200).json(leagues);
-  });
+router.get("/user", restricted, async (req, res) => {
+  const userLeagues = await db.getLeaguesByUserId(req.jwt.user_id);
+
+  if (userLeagues.length > 0) {
+    const container = userLeagues.map(league => {
+      return {
+        league_id: league.league_id,
+        name: league.name,
+        year: league.year,
+        type: league.type,
+        state: league.state,
+        zip: league.zip,
+        active: league.active
+      };
+    });
+    res.status(200).json(container);
+  } else {
+    res.status(500).json({ error: "Server error getting that users leagues." });
+  }
 });
 
 router.post("/create", restrictedAdmin, (req, res) => {

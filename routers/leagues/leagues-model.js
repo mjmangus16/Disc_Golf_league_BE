@@ -7,7 +7,7 @@ module.exports = {
   updateLeague,
   deleteLeague,
   getLeaguesByOwnerId,
-  getLeaguesByMemberId
+  getLeaguesByUserId
 };
 
 function getLeagues() {
@@ -48,11 +48,11 @@ async function deleteLeague(league_id) {
   const rounds = await db("rounds")
     .where("league_id", league_id)
     .map(round => round.round_id);
-  await rounds.forEach(r => {
-    db("participants")
-      .where("round_id", r)
-      .del();
-  });
+
+  await db("participants")
+    .whereIn("round_id", rounds)
+    .del();
+
   await db("rounds")
     .where("league_id", league_id)
     .del();
@@ -60,7 +60,6 @@ async function deleteLeague(league_id) {
 
 async function getLeaguesByOwnerId(owner_id) {
   const leagues = await db("leagues").where("owner_id", owner_id);
-
   const container = await leagues.map(league => {
     return {
       league_id: league.league_id,
@@ -75,12 +74,10 @@ async function getLeaguesByOwnerId(owner_id) {
   return container;
 }
 
-async function getLeaguesByMemberId(user_id) {
-  const members = await db("members").where("user_id", user_id);
-  console.log(members);
-  const leagues = members.map(member =>
-    db(leagues).where("league_id", member.league_id)
-  );
+async function getLeaguesByUserId(user_id) {
+  const ids = await db("members")
+    .where("user_id", user_id)
+    .map(m => m.league_id);
 
-  return leagues;
+  return db("leagues").whereIn("league_id", ids);
 }
