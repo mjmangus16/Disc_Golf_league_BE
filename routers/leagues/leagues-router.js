@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const db = require("./leagues-model");
+const dbLeagues = require("./leagues-model");
 const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
+const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
 
 // TYPE:  GET
 // ROUTE:   /api/leagues/test
@@ -16,7 +17,8 @@ router.get("/test", (req, res) => {
 // DESCRIPTION: Gets all data from all leagues
 
 router.get("/", (req, res) => {
-  db.getLeagues()
+  dbLeagues
+    .getLeagues()
     .then(leagues => {
       if (leagues.length > 0) {
         res.status(200).json(leagues);
@@ -35,7 +37,8 @@ router.get("/", (req, res) => {
 // DESCRIPTION: Gets specific data for all leagues
 
 router.get("/getLeagues", (req, res) => {
-  db.getLeagues()
+  dbLeagues
+    .getLeagues()
     .then(leagues => {
       if (leagues.length > 0) {
         let container = leagues.map(league => {
@@ -65,7 +68,8 @@ router.get("/getLeagues", (req, res) => {
 // DESCRIPTION: Gets all league data for a single league by id
 
 router.get("/id/:league_id", (req, res) => {
-  db.getLeagueById(req.params.league_id)
+  dbLeagues
+    .getLeagueById(req.params.league_id)
     .then(league => {
       if (league) {
         league.schedule = JSON.parse(league.schedule);
@@ -87,7 +91,7 @@ router.get("/id/:league_id", (req, res) => {
 // DESCRIPTION: Gets all the leagues that a user is the owner of
 
 router.get("/owner", restrictedAdmin, async (req, res) => {
-  let leagues = await db.getLeaguesByOwnerId(req.jwt.user_id);
+  let leagues = await dbLeagues.getLeaguesByOwnerId(req.jwt.user_id);
 
   if (leagues) {
     res.status(200).json(leagues);
@@ -101,7 +105,7 @@ router.get("/owner", restrictedAdmin, async (req, res) => {
 // DESCRIPTION: Gets specific data for all the leagues a user is a member of
 
 router.get("/user", restricted, async (req, res) => {
-  const userLeagues = await db.getLeaguesByUserId(req.jwt.user_id);
+  const userLeagues = await dbLeagues.getLeaguesByUserId(req.jwt.user_id);
 
   if (userLeagues.length > 0) {
     const container = userLeagues.map(league => {
@@ -140,7 +144,8 @@ router.post("/create", restrictedAdmin, (req, res) => {
 
   newLeague.owner_id = req.jwt.user_id;
 
-  db.createLeague(newLeague)
+  dbLeagues
+    .createLeague(newLeague)
     .then(addedLeague => {
       if (addedLeague) {
         res.status(200).json(addedLeague);
@@ -162,11 +167,12 @@ router.post("/create", restrictedAdmin, (req, res) => {
 // DESCRIPTION: Updates a league if the user is the manager of that league
 
 router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
-  const league = await db.getLeagueById(req.params.league_id);
+  const league = await dbLeagues.getLeagueById(req.params.league_id);
 
   if (league) {
-    if (league.owner_id === req.jwt.user_id) {
-      db.updateLeague(req.params.league_id, { ...league, ...req.body })
+    if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+      dbLeagues
+        .updateLeague(req.params.league_id, { ...league, ...req.body })
         .then(success => {
           if (success) {
             res.status(200).json({
@@ -199,21 +205,28 @@ router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
 // DESCRIPTION: Deletes the league and all the related data for that league. ( members, rounds, participants )
 
 router.delete("/delete/:league_id", restrictedAdmin, async (req, res) => {
-  const league = await db.getLeagueById(req.params.league_id);
+  const league = await dbLeagues.getLeagueById(req.params.league_id);
 
   if (league) {
-    db.deleteLeague(req.params.league_id)
-      .then(() => {
-        res.status(200).json({
-          success: `You have successfully deleted the ${league.name} league and all the data related to it.`
+    if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+      dbLeagues
+        .deleteLeague(req.params.league_id)
+        .then(() => {
+          res.status(200).json({
+            success: `You have successfully deleted the ${league.name} league and all the data related to it.`
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).json({
+            error: "We were unable to delete this league, please try again."
+          });
         });
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: "We were unable to delete this league, please try again."
-        });
+    } else {
+      res.status(500).json({
+        error: "You must be the manager of the league to delete it."
       });
+    }
   } else {
     res.status(500).json({
       error:

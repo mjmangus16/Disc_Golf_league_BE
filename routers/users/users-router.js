@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const db = require("./users-model");
+const dbUsers = require("./users-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const restricted = require("../../middleware/restricted");
@@ -13,7 +13,8 @@ router.get("/test", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  db.getUsers()
+  dbUsers
+    .getUsers()
     .then(users => {
       if (users.length > 0) {
         res.status(200).json(users);
@@ -44,7 +45,8 @@ router.post("/signup", (req, res) => {
   };
 
   newUser.password = bcrypt.hashSync(newUser.password, 10);
-  db.addUser(newUser)
+  dbUsers
+    .addUser(newUser)
     .then(addedUser => {
       res.status(201).json({
         message: `Your account has been created successfully! Please sign in.`
@@ -71,7 +73,7 @@ router.post("/signin", (req, res) => {
     password: req.body.password
   };
 
-  db.getUserByEmail(user.email).then(foundUser => {
+  dbUsers.getUserByEmail(user.email).then(foundUser => {
     // if (foundUser && bcrypt.compareSync(user.password, foundUser.password)) {
 
     // Removed the bcrypt.compareSync so that we can login with seed users without issue.
@@ -111,7 +113,8 @@ router.post("/signin", (req, res) => {
 
 router.get("/email/:email", restricted, (req, res) => {
   const { email } = req.params;
-  db.getUserByEmail(email)
+  dbUsers
+    .getUserByEmail(email)
     .then(user => {
       if (user) {
         res.status(200).json({
@@ -141,10 +144,12 @@ router.put("/update/:id", restricted, (req, res) => {
   }
 
   const id = req.params.id;
-  db.getUserById(id)
+  dbUsers
+    .getUserById(id)
     .then(user => {
       if (user) {
-        db.updateUser(id, req.body)
+        dbUsers
+          .updateUser(id, req.body)
           .then(updatedUser => {
             res.status(200).json({
               f_name: updatedUser.f_name,
@@ -173,9 +178,9 @@ router.put("/update/:id", restricted, (req, res) => {
 
 router.delete("/delete/:id", (req, res) => {
   const { id } = req.params;
-  db.getUserById(id).then(foundUser => {
+  dbUsers.getUserById(id).then(foundUser => {
     if (foundUser) {
-      db.deleteUser(id).then(deletedUser => {
+      dbUsers.deleteUser(id).then(deletedUser => {
         if (deletedUser) {
           res.status(200).json({
             message: `${foundUser.email} was deleted from the database.`
