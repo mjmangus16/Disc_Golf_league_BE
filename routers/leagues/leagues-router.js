@@ -3,9 +3,17 @@ const db = require("./leagues-model");
 const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 
+// TYPE:  GET
+// ROUTE:   /api/leagues/test
+// DESCRIPTION: Tests the leagues router
+
 router.get("/test", (req, res) => {
   res.send("The leagues router is working!");
 });
+
+// TYPE:  GET
+// ROUTE:   /api/leagues/
+// DESCRIPTION: Gets all data from all leagues
 
 router.get("/", (req, res) => {
   db.getLeagues()
@@ -21,6 +29,10 @@ router.get("/", (req, res) => {
       res.status(500).json({ error: "Server error getting leagues." });
     });
 });
+
+// TYPE:  GET
+// ROUTE:   /api/leagues/
+// DESCRIPTION: Gets specific data for all leagues
 
 router.get("/getLeagues", (req, res) => {
   db.getLeagues()
@@ -48,6 +60,10 @@ router.get("/getLeagues", (req, res) => {
     });
 });
 
+// TYPE:  GET
+// ROUTE:   /api/leagues/id/:league_id
+// DESCRIPTION: Gets all league data for a single league by id
+
 router.get("/id/:league_id", (req, res) => {
   db.getLeagueById(req.params.league_id)
     .then(league => {
@@ -66,11 +82,23 @@ router.get("/id/:league_id", (req, res) => {
     });
 });
 
+// TYPE:  GET
+// ROUTE:   /api/leagues/owner
+// DESCRIPTION: Gets all the leagues that a user is the owner of
+
 router.get("/owner", restrictedAdmin, async (req, res) => {
   let leagues = await db.getLeaguesByOwnerId(req.jwt.user_id);
 
-  res.status(200).json(leagues);
+  if (leagues) {
+    res.status(200).json(leagues);
+  } else {
+    res.status(500).json({ error: "This user does not manage any leagues." });
+  }
 });
+
+// TYPE:  GET
+// ROUTE:   /api/leagues/user
+// DESCRIPTION: Gets specific data for all the leagues a user is a member of
 
 router.get("/user", restricted, async (req, res) => {
   const userLeagues = await db.getLeaguesByUserId(req.jwt.user_id);
@@ -89,9 +117,15 @@ router.get("/user", restricted, async (req, res) => {
     });
     res.status(200).json(container);
   } else {
-    res.status(500).json({ error: "Server error getting that users leagues." });
+    res
+      .status(500)
+      .json({ error: "This user is not a member of any leagues." });
   }
 });
+
+// TYPE:  POST
+// ROUTE:   /api/leagues/create
+// DESCRIPTION: Creates a new league
 
 router.post("/create", restrictedAdmin, (req, res) => {
   const newLeague = req.body;
@@ -123,6 +157,10 @@ router.post("/create", restrictedAdmin, (req, res) => {
     });
 });
 
+// TYPE:  PUT
+// ROUTE:   /api/leagues/update/:league_id
+// DESCRIPTION: Updates a league if the user is the manager of that league
+
 router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
   const league = await db.getLeagueById(req.params.league_id);
 
@@ -147,6 +185,10 @@ router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
     });
   }
 });
+
+// TYPE:  DELETE
+// ROUTE:   /api/leagues/delete/:league_id
+// DESCRIPTION: Deletes the league and all the related data for that league. ( members, rounds, participants )
 
 router.delete("/delete/:league_id", restrictedAdmin, async (req, res) => {
   const league = await db.getLeagueById(req.params.league_id);
