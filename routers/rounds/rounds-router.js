@@ -111,4 +111,51 @@ router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
   }
 });
 
+// TYPE:  DELETE
+// ROUTE:   /api/rounds/delete/:round_id/league/:league_id
+// DESCRIPTION: deletes a round and all participants by round id
+
+router.delete(
+  "/delete/:round_id/league/:league_id",
+  restrictedAdmin,
+  async (req, res) => {
+    const league = await dbLeagues.getLeagueById(req.params.league_id);
+    const round = await dbRounds.getRoundById(req.params.round_id);
+
+    if (league) {
+      if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+        if (round && round.league_id === league.league_id) {
+          dbRounds
+            .deleteRound(req.params.round_id)
+            .then(() => {
+              res.status(200).json({
+                success: `The round was successfully deleted from this league.`
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error:
+                  "There was an error trying to delete that round, please try again later."
+              });
+            });
+        } else {
+          res.status(500).json({
+            error: "That round does not exist in our database."
+          });
+        }
+      } else {
+        res.status(500).json({
+          error: "Only the manager of this league can delete a round."
+        });
+      }
+    } else {
+      res.status(500).json({
+        error:
+          "We can not delete a round for a league that does not exist in our database."
+      });
+    }
+  }
+);
+
 module.exports = router;

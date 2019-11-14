@@ -2,8 +2,10 @@ const db = require("../../data/dbConfig");
 
 module.exports = {
   getRounds,
+  getRoundById,
   getRoundsByLeague,
-  addRound
+  addRound,
+  deleteRound
 };
 
 function getRounds() {
@@ -11,7 +13,9 @@ function getRounds() {
 }
 
 function getRoundById(round_id) {
-  return db("rounds").where("round_id", round_id);
+  return db("rounds")
+    .where("round_id", round_id)
+    .first();
 }
 
 function getRoundsByLeague(league_id) {
@@ -29,6 +33,15 @@ async function addRound(newRound, league_id) {
     )
     .then(round => {
       const [id] = round;
-      return getRoundById(id).first();
+      return getRoundById(id);
     });
+}
+
+async function deleteRound(round_id) {
+  await db("rounds")
+    .where("round_id", round_id)
+    .del();
+  await db("participants")
+    .where("round_id", round_id)
+    .del();
 }
