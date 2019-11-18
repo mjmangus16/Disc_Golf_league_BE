@@ -14,7 +14,7 @@ exports.seed = function(knex) {
           state: "NY",
           zip: 14224,
           location: "Phatmans",
-          days: "Tuesday",
+          days: "Tue",
           length: "November - March",
           active: false,
           contact:
@@ -31,7 +31,7 @@ exports.seed = function(knex) {
           state: "NY",
           zip: 14224,
           location: "Phatmans",
-          days: "Tuesday",
+          days: "Tue",
           length: "November - March",
           active: false,
           contact:
@@ -48,7 +48,7 @@ exports.seed = function(knex) {
           state: "NY",
           zip: 14224,
           location: "Phatmans",
-          days: "Tuesday",
+          days: "Tue",
           length: "November - March",
           active: true,
           contact:
@@ -65,7 +65,7 @@ exports.seed = function(knex) {
           state: "NY",
           zip: 14224,
           location: "Ellicot Creek Park",
-          days: "Thursday",
+          days: "Thu",
           length: "March - September",
           active: false,
           contact:
@@ -84,7 +84,7 @@ exports.seed = function(knex) {
           state: "NY",
           zip: 14224,
           location: "Travel",
-          days: "Wednesday",
+          days: "Wed",
           active: false,
           contact:
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
@@ -123,7 +123,7 @@ exports.seed = function(knex) {
           state: "NY",
           zip: 14224,
           location: "Travel",
-          days: "Wednesday",
+          days: "Wed",
           active: true,
           contact:
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",

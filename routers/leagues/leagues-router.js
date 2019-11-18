@@ -3,6 +3,7 @@ const dbLeagues = require("./leagues-model");
 const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
+const validateCreateLeague = require("../../validation/leagues/create");
 
 // TYPE:  GET
 // ROUTE:   /api/leagues/test
@@ -33,7 +34,7 @@ router.get("/", (req, res) => {
 });
 
 // TYPE:  GET
-// ROUTE:   /api/leagues/
+// ROUTE:   /api/leagues/getLeagues
 // DESCRIPTION: Gets specific data for all leagues
 
 router.get("/getLeagues", (req, res) => {
@@ -133,6 +134,12 @@ router.get("/user", restricted, async (req, res) => {
 
 router.post("/create", restrictedAdmin, (req, res) => {
   const newLeague = req.body;
+
+  const { errors, isValid } = validateCreateLeague(newLeague);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
 
   newLeague.relationship_id
     ? (newLeague.relationship_id = newLeague.relationship_id)

@@ -72,6 +72,7 @@ async function getLeaguesByOwnerId(owner_id) {
       state: league.state,
       zip: league.zip,
       location: league.location,
+      days: league.days,
       active: league.active
     };
   });

@@ -78,7 +78,7 @@ router.post("/signin", (req, res) => {
 
     // Removed the bcrypt.compareSync so that we can login with seed users without issue.
 
-    if (foundUser) {
+    if (foundUser && foundUser.password === user.password) {
       const payload = {
         user_id: foundUser.user_id,
         email: foundUser.email,
