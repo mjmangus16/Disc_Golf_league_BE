@@ -35,7 +35,7 @@ function updateLeague(league_id, changes) {
     .update(changes, "*")
     .then(success => {
       if (success) {
-        return true;
+        return getLeagueById(league_id).first();
       } else {
         return false;
       }

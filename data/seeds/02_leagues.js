@@ -90,24 +90,60 @@ exports.seed = function(knex) {
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           schedule: JSON.stringify([
             {
-              Intermediate: "Beaver Island State Park",
-              Advanced: "Joseph Davis"
+              date: "11/25/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Chestnut Ridge",
-              Advanced: "Outwater"
+              date: "11/26/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Outwater",
-              Advanced: "Chestnut Ridge"
+              date: "12/5/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Emery",
-              Advanced: "Beaver Island State Park"
+              date: "12/10/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Wilson-Tuscarora",
-              Advanced: "Joseph Davis"
+              date: "12/25/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
+            },
+            {
+              date: "1/13/20",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
+            },
+            {
+              date: "1/20/20",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             }
           ]),
           description:
@@ -129,24 +165,60 @@ exports.seed = function(knex) {
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           schedule: JSON.stringify([
             {
-              Intermediate: "Beaver Island State Park",
-              Advanced: "Joseph Davis"
+              date: "11/25/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Chestnut Ridge",
-              Advanced: "Outwater"
+              date: "11/26/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Outwater",
-              Advanced: "Chestnut Ridge"
+              date: "12/5/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Emery",
-              Advanced: "Beaver Island State Park"
+              date: "12/10/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             },
             {
-              Intermediate: "Wilson-Tuscarora",
-              Advanced: "Joseph Davis"
+              date: "12/25/19",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
+            },
+            {
+              date: "1/13/20",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
+            },
+            {
+              date: "1/20/20",
+              all: "",
+              recreational: "",
+              intermediate: "Beaver Island State Park",
+              advanced: "Joseph Davis",
+              open: ""
             }
           ]),
 

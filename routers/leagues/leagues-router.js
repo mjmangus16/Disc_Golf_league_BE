@@ -182,9 +182,7 @@ router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
         .updateLeague(req.params.league_id, { ...league, ...req.body })
         .then(success => {
           if (success) {
-            res.status(200).json({
-              message: `We were able to successfully update the information for the ${league.name} league.`
-            });
+            res.status(200).json(success);
           } else {
             res
               .status(500)
