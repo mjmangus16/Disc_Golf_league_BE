@@ -13,8 +13,22 @@ function getMembers() {
   return db("members").select("*");
 }
 
-function getMembersByLeagueId(league_id) {
-  return db("members").where("league_id", league_id);
+async function getMembersByLeagueId(league_id) {
+  const members = await db("members").where("league_id", league_id);
+
+  const rounds = await db("rounds")
+    .where("league_id", league_id)
+    .map(r => r.round_id);
+  const participants = await db("participants").whereIn("round_id", rounds);
+
+  container = members.map(m => {
+    return {
+      ...m,
+      rounds: participants.filter(p => p.member_id == m.member_id)
+    };
+  });
+
+  return container;
 }
 
 function getMemberById(member_id) {

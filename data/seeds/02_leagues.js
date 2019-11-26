@@ -90,7 +90,7 @@ exports.seed = function(knex) {
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           schedule: JSON.stringify([
             {
-              date: "11/25/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -98,7 +98,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "11/26/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -106,7 +106,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "12/5/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -114,7 +114,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "12/10/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -122,7 +122,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "12/25/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -130,7 +130,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "1/13/20",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -138,7 +138,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "1/20/20",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -165,7 +165,7 @@ exports.seed = function(knex) {
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           schedule: JSON.stringify([
             {
-              date: "11/25/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -173,7 +173,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "11/26/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -181,7 +181,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "12/5/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -189,7 +189,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "12/10/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -197,7 +197,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "12/25/19",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -205,7 +205,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "1/13/20",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",
@@ -213,7 +213,7 @@ exports.seed = function(knex) {
               open: ""
             },
             {
-              date: "1/20/20",
+              date: "20191125",
               all: "",
               recreational: "",
               intermediate: "Beaver Island State Park",

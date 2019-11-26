@@ -41,6 +41,7 @@ router.get("/league/:league_id", (req, res) => {
   dbMembers
     .getMembersByLeagueId(req.params.league_id)
     .then(members => {
+      console.log(members);
       if (members.length > 0) {
         res.status(200).json(members);
       } else {
