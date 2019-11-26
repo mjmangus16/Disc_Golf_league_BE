@@ -41,7 +41,6 @@ router.get("/league/:league_id", (req, res) => {
   dbMembers
     .getMembersByLeagueId(req.params.league_id)
     .then(members => {
-      console.log(members);
       if (members.length > 0) {
         res.status(200).json(members);
       } else {
@@ -65,10 +64,19 @@ router.get("/league/:league_id", (req, res) => {
 router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
   const league = await dbLeagues.getLeagueById(req.params.league_id);
 
+  let newUser = req.body;
+
+  if (req.body.email !== "") {
+    const user = await dbUsers.getUserByEmail(req.body.email);
+    newUser.user_id = user.user_id;
+  } else {
+    newUser.user_id = null;
+  }
+
   if (league) {
     if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
       dbMembers
-        .addMemberToLeague(req.body, req.params.league_id)
+        .addMemberToLeague(newUser, req.params.league_id)
         .then(member => {
           res.status(200).json({
             success: `${member.f_name} ${member.l_name} was successfully added to ${league.name}.`

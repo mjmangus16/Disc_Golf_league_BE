@@ -64,7 +64,8 @@ async function deleteLeague(league_id) {
 
 async function getLeaguesByOwnerId(owner_id) {
   const leagues = await db("leagues").where("owner_id", owner_id);
-  const container = await leagues.map(league => {
+
+  const container = leagues.map(league => {
     return {
       league_id: league.league_id,
       name: league.name,
