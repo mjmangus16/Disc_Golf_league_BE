@@ -88,64 +88,7 @@ exports.seed = function(knex) {
           active: false,
           contact:
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
-          schedule: JSON.stringify([
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            }
-          ]),
+
           description:
             "This is a travel singles league. Courses played are Emery, Beaver Island State Park, Wilson-Tuscarora, Outwater, Joseph Davis and Chestnut Ridge.",
           owner_id: 1
@@ -163,65 +106,6 @@ exports.seed = function(knex) {
           active: true,
           contact:
             "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
-          schedule: JSON.stringify([
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            },
-            {
-              date: "20191125",
-              all: "",
-              recreational: "",
-              intermediate: "Beaver Island State Park",
-              advanced: "Joseph Davis",
-              open: ""
-            }
-          ]),
-
           description:
             "This is a travel singles league. Courses played are Emery, Beaver Island State Park, Wilson-Tuscarora, Outwater, Joseph Davis and Chestnut Ridge.",
           owner_id: 1

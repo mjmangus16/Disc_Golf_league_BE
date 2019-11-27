@@ -8,6 +8,7 @@ const leaguesRouter = require("./routers/leagues/leagues-router");
 const membersRouter = require("./routers/members/members-router");
 const roundsRouter = require("./routers/rounds/rounds-router");
 const participantsRouter = require("./routers/participants/participants-router");
+const schedulesRouter = require("./routers/schedules/schedules-router");
 
 server.use(helmet());
 server.use(cors());
@@ -18,6 +19,7 @@ server.use("/api/leagues", leaguesRouter);
 server.use("/api/members", membersRouter);
 server.use("/api/rounds", roundsRouter);
 server.use("/api/participants", participantsRouter);
+server.use("/api/schedules", schedulesRouter);
 
 server.get("/", (req, res) => {
   res.send("Server is up and running!");

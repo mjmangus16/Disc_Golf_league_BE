@@ -10,7 +10,6 @@ exports.up = function(knex) {
     leagues.string("location").notNullable();
     leagues.string("days").notNullable();
     leagues.string("length");
-    leagues.json("schedule");
     leagues
       .boolean("active")
       .defaultTo(true)
