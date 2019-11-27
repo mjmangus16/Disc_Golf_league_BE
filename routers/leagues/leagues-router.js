@@ -10,7 +10,7 @@ const validateCreateLeague = require("../../validation/leagues/create");
 // DESCRIPTION: Tests the leagues router
 
 router.get("/test", (req, res) => {
-  res.send("The leagues router is working!");
+  return res.send("The leagues router is working!");
 });
 
 // TYPE:  GET
@@ -22,14 +22,16 @@ router.get("/", (req, res) => {
     .getLeagues()
     .then(leagues => {
       if (leagues.length > 0) {
-        res.status(200).json(leagues);
+        return res.status(200).json(leagues);
       } else {
-        res.status(500).json({ error: "There are no leagues available." });
+        return res
+          .status(500)
+          .json({ error: "There are no leagues available." });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error getting leagues." });
+      return res.status(500).json({ error: "Server error getting leagues." });
     });
 });
 
@@ -53,14 +55,16 @@ router.get("/getLeagues", (req, res) => {
             active: league.active
           };
         });
-        res.status(200).json(container);
+        return res.status(200).json(container);
       } else {
-        res.status(500).json({ error: "There are no leagues available." });
+        return res
+          .status(500)
+          .json({ error: "There are no leagues available." });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error getting leagues." });
+      return res.status(500).json({ error: "Server error getting leagues." });
     });
 });
 
@@ -74,16 +78,18 @@ router.get("/id/:league_id", (req, res) => {
     .then(league => {
       if (league) {
         league.schedule = JSON.parse(league.schedule);
-        res.status(200).json(league);
+        return res.status(200).json(league);
       } else {
-        res
+        return res
           .status(500)
           .json({ error: "That league does not exist in our database." });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error getting that league." });
+      return res
+        .status(500)
+        .json({ error: "Server error getting that league." });
     });
 });
 
@@ -95,9 +101,11 @@ router.get("/owner", restrictedAdmin, async (req, res) => {
   let leagues = await dbLeagues.getLeaguesByOwnerId(req.jwt.user_id);
 
   if (leagues) {
-    res.status(200).json(leagues);
+    return res.status(200).json(leagues);
   } else {
-    res.status(500).json({ error: "This user does not manage any leagues." });
+    return res
+      .status(500)
+      .json({ error: "This user does not manage any leagues." });
   }
 });
 
@@ -120,9 +128,9 @@ router.get("/user", restricted, async (req, res) => {
         active: league.active
       };
     });
-    res.status(200).json(container);
+    return res.status(200).json(container);
   } else {
-    res
+    return res
       .status(500)
       .json({ error: "This user is not a member of any leagues." });
   }
@@ -155,9 +163,9 @@ router.post("/create", restrictedAdmin, (req, res) => {
     .createLeague(newLeague)
     .then(addedLeague => {
       if (addedLeague) {
-        res.status(200).json(addedLeague);
+        return res.status(200).json(addedLeague);
       } else {
-        res.status(500).json({
+        return res.status(500).json({
           error:
             "There was an error trying to create that league. Please try again."
         });
@@ -165,7 +173,9 @@ router.post("/create", restrictedAdmin, (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error creating that league." });
+      return res
+        .status(500)
+        .json({ error: "Server error creating that league." });
     });
 });
 

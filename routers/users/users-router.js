@@ -9,7 +9,7 @@ const validateSignin = require("../../validation/users/signin");
 const validateUpdateUser = require("../../validation/users/updateUser");
 
 router.get("/test", (req, res) => {
-  res.send("The users router is working!");
+  return res.send("The users router is working!");
 });
 
 router.get("/", (req, res) => {
@@ -17,14 +17,14 @@ router.get("/", (req, res) => {
     .getUsers()
     .then(users => {
       if (users.length > 0) {
-        res.status(200).json(users);
+        return res.status(200).json(users);
       } else {
-        res.status(500).json({ error: "There are no users available" });
+        return res.status(500).json({ error: "There are no users available" });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error getting users" });
+      return res.status(500).json({ error: "Server error getting users" });
     });
 });
 
@@ -48,13 +48,13 @@ router.post("/signup", (req, res) => {
   dbUsers
     .addUser(newUser)
     .then(addedUser => {
-      res.status(201).json({
+      return res.status(201).json({
         message: `Your account has been created successfully! Please sign in.`
       });
     })
     .catch(error => {
       console.log(error);
-      res.status(500).json({
+      return res.status(500).json({
         ...errors,
         signup_message: `There was an issue creating this account. Please try again.`
       });
@@ -87,14 +87,14 @@ router.post("/signin", (req, res) => {
 
       // Sign Token
       jwt.sign(payload, "dev_key_001", { expiresIn: 14400 }, (err, token) => {
-        res.status(200).json({
+        return res.status(200).json({
           success: true,
           token: token
         });
       });
     } else {
       if (!foundUser) {
-        res.status(400).json({
+        return res.status(400).json({
           ...errors,
           signin_message: `${user.email} does not exist in our database.`
         });
@@ -102,7 +102,7 @@ router.post("/signin", (req, res) => {
         foundUser &&
         !bcrypt.compareSync(user.password, foundUser.password)
       ) {
-        res.status(400).json({
+        return res.status(400).json({
           ...errors,
           signin_message: `There was an error logging in. Please try again`
         });
@@ -125,14 +125,14 @@ router.get("/email/:email", restricted, (req, res) => {
           org_name: user.org_name
         });
       } else {
-        res
+        return res
           .status(500)
           .json({ email: "That user does not exist in our database" });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ email: "Server error getting that user" });
+      return res.status(500).json({ email: "Server error getting that user" });
     });
 });
 
@@ -151,7 +151,7 @@ router.put("/update/:id", restricted, (req, res) => {
         dbUsers
           .updateUser(id, req.body)
           .then(updatedUser => {
-            res.status(200).json({
+            return res.status(200).json({
               f_name: updatedUser.f_name,
               l_name: updatedUser.l_name,
               org_name: updatedUser.org_name
@@ -159,20 +159,20 @@ router.put("/update/:id", restricted, (req, res) => {
           })
           .catch(err => {
             console.log(err);
-            res.status(500).json({
+            return res.status(500).json({
               update:
                 "There was an error trying to update the user information. Please try again later."
             });
           });
       } else {
-        res
+        return res
           .status(500)
           .json({ update: "That user does not exist in our database" });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ update: "Server error finding that user" });
+      return res.status(500).json({ update: "Server error finding that user" });
     });
 });
 
@@ -182,17 +182,17 @@ router.delete("/delete/:id", (req, res) => {
     if (foundUser) {
       dbUsers.deleteUser(id).then(deletedUser => {
         if (deletedUser) {
-          res.status(200).json({
+          return res.status(200).json({
             message: `${foundUser.email} was deleted from the database.`
           });
         } else {
-          res.status(400).json({
+          return res.status(400).json({
             delete: `There was an error trying to delete ${foundUser.email} from the database.`
           });
         }
       });
     } else {
-      res.status(400).json({
+      return res.status(400).json({
         delete: "That user does not exist in our database."
       });
     }
