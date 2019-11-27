@@ -24,11 +24,11 @@ router.get("/league/:league_id/member/:member_id", (req, res) => {
   const { league_id, member_id } = req.params;
   db.getParticipantsByLeagueAndMember(league_id, member_id)
     .then(participants => {
-      return res.status(200).json(participants);
+      res.status(200).json(participants);
     })
     .catch(err => {
       console.log(err);
-      return res
+      res
         .status(500)
         .json({ error: "Server error getting that members rounds" });
     });
