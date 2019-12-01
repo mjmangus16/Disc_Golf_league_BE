@@ -5,6 +5,7 @@ module.exports = {
   getRoundById,
   getRoundsByLeague,
   addRound,
+  updateRound,
   deleteRound
 };
 
@@ -34,6 +35,19 @@ async function addRound(newRound, league_id) {
     .then(round => {
       const [id] = round;
       return getRoundById(id);
+    });
+}
+
+function updateRound(round_id, changes) {
+  return db("rounds")
+    .where({ round_id })
+    .update(changes, "*")
+    .then(success => {
+      if (success) {
+        return getRoundById(round_id);
+      } else {
+        return false;
+      }
     });
 }
 

@@ -63,7 +63,7 @@ router.get("/league/:league_id", async (req, res) => {
   } else {
     res.status(500).json({
       error:
-        "We can not get rounds for a league that does not exist in our database."
+      "We could not find that league"
     });
   }
 });
@@ -95,18 +95,18 @@ router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
           console.log(err);
           res.status(500).json({
             error:
-              "We were unable to create a round for this league. Please try again later."
+            "We could not find that round"
           });
         });
     } else {
       res.status(500).json({
-        error: "Only the manager of this league can add a round."
+        error: "You do not have admin privileges for this league"
       });
     }
   } else {
     res.status(500).json({
       error:
-        "We can not add a round to a league that does not exist in our database."
+      "We could not find that league"
     });
   }
 });
@@ -141,21 +141,66 @@ router.delete(
             });
         } else {
           res.status(500).json({
-            error: "That round does not exist in our database."
+            error: "We could not find that round"
           });
         }
       } else {
         res.status(500).json({
-          error: "Only the manager of this league can delete a round."
+          error: "You do not have admin privileges for this league"
         });
       }
     } else {
       res.status(500).json({
         error:
-          "We can not delete a round for a league that does not exist in our database."
+        "We could not find that league"
       });
     }
   }
 );
+
+// TYPE:  UPDATE
+// ROUTE:   /api/rounds/update/:round_id/league/:league_id
+// DESCRIPTION: updates a round by round id
+
+router.put(
+  "/update/:round_id/league/:league_id", restrictedAdmin, (req, res) => {
+    const {league_id, round_id} = req.params;
+    const {changes} = req.body;
+    const league = await dbLeagues.getLeagueById(league_id);
+    const round = await dbRounds.getRoundById(round_id);
+
+    if (league){
+      if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+        if (round && round.league_id === league.league_id) {
+          dbRounds.updateRound(round_id, changes).then(succes => {
+            if (success){
+              res.status(200).json(success)
+            }else{
+              res.status(500).json({ error: "There was an issue updating that round"})
+            }
+          }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: "Server error updating that round" });
+          });
+        }else{
+          res.status(500).json({
+            error:
+              "We could not find that round"
+          });
+        }
+      }else{
+        res.status(500).json({
+          error: "You do not have admin privileges for this league"
+        });
+      }
+     
+    }else{
+      res.status(500).json({
+        error:
+          "We could not find that league"
+      });
+    }
+  }
+)
 
 module.exports = router;
