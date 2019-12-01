@@ -111,9 +111,13 @@ router.put(
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (scheduleItem) {
           dbSchedules
-            .updateSchedule(req.params.schedule_id, req.body)
-            .then(() => {
-              res.status(200).json({ message: "success" });
+            .updateSchedule(
+              req.params.schedule_id,
+              req.body,
+              req.params.league_id
+            )
+            .then(schedule => {
+              res.status(200).json(schedule);
             })
             .catch(err => {
               console.log(err);
@@ -157,9 +161,9 @@ router.delete(
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (scheduleItem) {
           dbSchedules
-            .deleteSchedule(req.params.schedule_id)
-            .then(() => {
-              res.status(200).json({ message: "success" });
+            .deleteSchedule(req.params.schedule_id, req.params.league_id)
+            .then(schedule => {
+              res.status(200).json(schedule);
             })
             .catch(err => {
               console.log(err);

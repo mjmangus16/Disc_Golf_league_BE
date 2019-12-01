@@ -1,7 +1,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable("schedules", schedules => {
     schedules.increments("schedule_id").unique();
-    schedules.date("date").notNullable();
+    schedules.string("date").notNullable();
     schedules.string("all");
     schedules.string("rec");
     schedules.string("int");

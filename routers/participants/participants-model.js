@@ -2,18 +2,30 @@ const db = require("../../data/dbConfig");
 
 module.exports = {
   getParticipants,
-  getParticipantsByLeagueAndMember
+  getParticipantsByLeagueAndMember,
+  getParticipantsByRoundId
 };
 
 function getParticipants() {
   return db("participants").select("*");
 }
 
-async function getParticipantsByLeagueAndMember(league_id, member_id) {
-  const rounds = await db("rounds")
-    .where("league_id", league_id)
-    .map(r => r.round_id);
-  const members = await db("participants").whereIn("round_id", rounds);
+async function getParticipantsByLeagueAndMember(member_id) {
+  const rounds = await db("participants").join(
+    "rounds",
+    "participants.round_id",
+    "=",
+    "rounds.round_id"
+  );
+  return rounds.filter(r => r.member_id == member_id);
+}
 
-  return members.filter(m => m.member_id == member_id);
+async function getParticipantsByRoundId(round_id) {
+  const participants = await db("participants").join(
+    "members",
+    "members.member_id",
+    "=",
+    "participants.member_id"
+  );
+  return participants.filter(p => p.round_id == round_id);
 }

@@ -32,14 +32,20 @@ function addSchedule(newSchedule) {
     });
 }
 
-function updateSchedule(schedule_id, changes) {
+function updateSchedule(schedule_id, changes, league_id) {
   return db("schedules")
     .where({ schedule_id })
-    .update(changes, "*");
+    .update(changes, "*")
+    .then(() => {
+      return getSchedulesByLeagueId(league_id);
+    });
 }
 
-function deleteSchedule(schedule_id) {
+function deleteSchedule(schedule_id, league_id) {
   return db("schedules")
     .where("schedule_id", schedule_id)
-    .del();
+    .del()
+    .then(() => {
+      return getSchedulesByLeagueId(league_id);
+    });
 }
