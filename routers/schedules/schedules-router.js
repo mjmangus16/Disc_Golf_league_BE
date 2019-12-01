@@ -35,24 +35,31 @@ router.get("/", (req, res) => {
 // ROUTE:   /api/schedules/league/:league_id
 // DESCRIPTION: Gets all schedules data by league id
 
-router.get("/league/:league_id", (req, res) => {
-  dbSchedules
-    .getSchedulesByLeagueId(req.params.league_id)
-    .then(schedules => {
-      if (schedules.length > 0) {
-        res.status(200).json(schedules);
-      } else {
+router.get("/league/:league_id", async (req, res) => {
+  const { league_id } = req.params;
+  const league = await dbLeagues.getLeagueById(league_id);
+
+  if (league) {
+    dbSchedules
+      .getSchedulesByLeagueId(league_id)
+      .then(schedules => {
+        if (schedules.length > 0) {
+          res.status(200).json(schedules);
+        } else {
+          res
+            .status(500)
+            .json({ error: "There is no schedule data for that league" });
+        }
+      })
+      .catch(err => {
+        console.log(err);
         res
           .status(500)
-          .json({ error: "There is no schedule data for that league" });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res
-        .status(500)
-        .json({ error: "There was an issue grabbing the schedule data" });
-    });
+          .json({ error: "There was an issue grabbing the schedule data" });
+      });
+  } else {
+    res.status(500).json({ error: "That league does not exist" });
+  }
 });
 
 // TYPE:  POST
@@ -60,12 +67,14 @@ router.get("/league/:league_id", (req, res) => {
 // DESCRIPTION: Adds a new schedule item to the database
 
 router.post("/league/:league_id", restrictedAdmin, async (req, res) => {
-  const league = await dbLeagues.getLeagueById(req.params.league_id);
+  const { league_id } = req.params;
+  const newSchedule = req.body;
+  const league = await dbLeagues.getLeagueById(league_id);
 
   if (league) {
     if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
       dbSchedules
-        .addSchedule(req.body)
+        .addSchedule(newSchedule)
         .then(schedule => {
           if (schedule) {
             res.status(200).json(schedule);
@@ -83,13 +92,12 @@ router.post("/league/:league_id", restrictedAdmin, async (req, res) => {
         });
     } else {
       res.status(500).json({
-        error: "Only the manager of this league can add schedule data"
+        error: "You do not have admin privileges for this league"
       });
     }
   } else {
     res.status(500).json({
-      error:
-        "We can not add schedule data to a league that does not exist in our database"
+      error: "That league does not exist"
     });
   }
 });
@@ -102,43 +110,38 @@ router.put(
   "/league/:league_id/:schedule_id",
   restrictedAdmin,
   async (req, res) => {
-    const league = await dbLeagues.getLeagueById(req.params.league_id);
-    const scheduleItem = await dbSchedules.getScheduleById(
-      req.params.schedule_id
-    );
+    const { league_id, schedule_id } = req.params;
+    const changes = req.body;
+    const league = await dbLeagues.getLeagueById(league_id);
+    const scheduleItem = await dbSchedules.getScheduleById(schedule_id);
 
     if (league) {
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (scheduleItem) {
           dbSchedules
-            .updateSchedule(
-              req.params.schedule_id,
-              req.body,
-              req.params.league_id
-            )
+            .updateSchedule(schedule_id, changes, league_id)
             .then(schedule => {
               res.status(200).json(schedule);
             })
             .catch(err => {
               console.log(err);
               res.status(500).json({
-                error: "There was an issue creating this schedule data"
+                error: "There was an issue updating this schedule data"
               });
             });
         } else {
           res.status(500).json({
-            error: "That schedule data does not exist in our database"
+            error: "We could not find that schedule data"
           });
         }
       } else {
         res.status(500).json({
-          error: "Only the manager of this league can edit schedule data"
+          error: "You do not have admin privileges for this league"
         });
       }
     } else {
       res.status(500).json({
-        error:
-          "We can not edit schedule data for a league that does not exist in our database"
+        error: "That league does not exist"
       });
     }
   }
@@ -152,39 +155,37 @@ router.delete(
   "/league/:league_id/:schedule_id",
   restrictedAdmin,
   async (req, res) => {
-    const league = await dbLeagues.getLeagueById(req.params.league_id);
-    const scheduleItem = await dbSchedules.getScheduleById(
-      req.params.schedule_id
-    );
+    const { league_id, schedule_id } = req.params;
+    const league = await dbLeagues.getLeagueById(league_id);
+    const scheduleItem = await dbSchedules.getScheduleById(schedule_id);
 
     if (league) {
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (scheduleItem) {
           dbSchedules
-            .deleteSchedule(req.params.schedule_id, req.params.league_id)
+            .deleteSchedule(schedule_id, league_id)
             .then(schedule => {
               res.status(200).json(schedule);
             })
             .catch(err => {
               console.log(err);
               res.status(500).json({
-                error: "There was an issue trying to delete that schedule data"
+                error: "There was an issue deleting that schedule data"
               });
             });
         } else {
           res.status(500).json({
-            error: "That schedule data does not exist in our database"
+            error: "We could not find that schedule data"
           });
         }
       } else {
         res.status(500).json({
-          error: "Only the manager of this league can delete schedule data"
+          error: "You do not have admin privileges for this league"
         });
       }
     } else {
       res.status(500).json({
-        error:
-          "We can not delete schedule data for a league that does not exist in our database."
+        error: "That league does not exist"
       });
     }
   }

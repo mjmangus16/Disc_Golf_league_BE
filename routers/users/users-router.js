@@ -136,20 +136,21 @@ router.get("/email/:email", restricted, (req, res) => {
     });
 });
 
-router.put("/update/:id", restricted, (req, res) => {
+router.put("/update/:user_id", restricted, (req, res) => {
   const { errors, isValid } = validateUpdateUser(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
-  const id = req.params.id;
+  const { user_id } = req.params;
+  const { changes } = req.body;
   dbUsers
-    .getUserById(id)
+    .getUserById(user_id)
     .then(user => {
       if (user) {
         dbUsers
-          .updateUser(id, req.body)
+          .updateUser(user_id, changes)
           .then(updatedUser => {
             res.status(200).json({
               f_name: updatedUser.f_name,
@@ -176,11 +177,11 @@ router.put("/update/:id", restricted, (req, res) => {
     });
 });
 
-router.delete("/delete/:id", (req, res) => {
-  const { id } = req.params;
-  dbUsers.getUserById(id).then(foundUser => {
+router.delete("/delete/:user_id", (req, res) => {
+  const { user_id } = req.params;
+  dbUsers.getUserById(user_id).then(foundUser => {
     if (foundUser) {
-      dbUsers.deleteUser(id).then(deletedUser => {
+      dbUsers.deleteUser(user_id).then(deletedUser => {
         if (deletedUser) {
           res.status(200).json({
             message: `${foundUser.email} was deleted from the database.`

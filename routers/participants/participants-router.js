@@ -57,14 +57,10 @@ router.get(
               .json({ error: "Server error getting that members rounds" });
           });
       } else {
-        res
-          .status(500)
-          .json({ error: "That member does not exist in our database" });
+        res.status(500).json({ error: "We could not find that member" });
       }
     } else {
-      res
-        .status(500)
-        .json({ error: "That league does not exist in our database" });
+      res.status(500).json({ error: "We could not find that league" });
     }
   }
 );
@@ -95,14 +91,10 @@ router.get(
               .json({ error: "Server error trying to get participants" });
           });
       } else {
-        res
-          .status(500)
-          .json({ error: "That round does not exist in our database" });
+        res.status(500).json({ error: "We could not find that round" });
       }
     } else {
-      res
-        .status(500)
-        .json({ error: "That league does not exist in our database" });
+      res.status(500).json({ error: "We could not find that league" });
     }
   }
 );

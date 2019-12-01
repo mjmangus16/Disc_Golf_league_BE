@@ -4,6 +4,7 @@ module.exports = {
   getParticipants,
   getParticipantsByLeagueAndMember,
   getParticipantsByRoundId,
+  updateParticipant,
   deleteParticipant
 };
 

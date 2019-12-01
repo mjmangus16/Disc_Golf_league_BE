@@ -24,12 +24,12 @@ router.get("/", (req, res) => {
       if (leagues.length > 0) {
         res.status(200).json(leagues);
       } else {
-        res.status(500).json({ error: "There are no leagues available." });
+        res.status(500).json({ error: "There are no leagues available" });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error getting leagues." });
+      res.status(500).json({ error: "Server error getting leagues" });
     });
 });
 
@@ -55,12 +55,12 @@ router.get("/getLeagues", (req, res) => {
         });
         res.status(200).json(container);
       } else {
-        res.status(500).json({ error: "There are no leagues available." });
+        res.status(500).json({ error: "There are no leagues available" });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error getting leagues." });
+      res.status(500).json({ error: "Server error getting leagues" });
     });
 });
 
@@ -76,14 +76,12 @@ router.get("/id/:league_id", (req, res) => {
         league.schedule = JSON.parse(league.schedule);
         res.status(200).json(league);
       } else {
-        res
-          .status(500)
-          .json({ error: "That league does not exist in our database." });
+        res.status(500).json({ error: "We could not find that league" });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error getting that league." });
+      res.status(500).json({ error: "Server error getting this league" });
     });
 });
 
@@ -97,7 +95,7 @@ router.get("/owner", restrictedAdmin, async (req, res) => {
   if (leagues) {
     res.status(200).json(leagues);
   } else {
-    res.status(500).json({ error: "This user does not manage any leagues." });
+    res.status(500).json({ error: "This user does not manage any leagues" });
   }
 });
 
@@ -124,7 +122,7 @@ router.get("/user", restricted, async (req, res) => {
   } else {
     res
       .status(500)
-      .json({ error: "This user is not a member of any leagues." });
+      .json({ error: "We could not find any leagues for this member" });
   }
 });
 
@@ -158,14 +156,13 @@ router.post("/create", restrictedAdmin, (req, res) => {
         res.status(200).json(addedLeague);
       } else {
         res.status(500).json({
-          error:
-            "There was an error trying to create that league. Please try again."
+          error: "There was an issue creating this league"
         });
       }
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ error: "Server error creating that league." });
+      res.status(500).json({ error: "Server error creating this league" });
     });
 });
 
@@ -195,12 +192,12 @@ router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
         });
     } else {
       res.status(500).json({
-        error: "Only the manager of this league can make updates to it."
+        error: "You do not have admin privileges for this league"
       });
     }
   } else {
     res.status(500).json({
-      error: "That league does not exist in our database"
+      error: "We could not find that league"
     });
   }
 });
@@ -224,18 +221,17 @@ router.delete("/delete/:league_id", restrictedAdmin, async (req, res) => {
         .catch(err => {
           console.log(err);
           res.status(500).json({
-            error: "We were unable to delete this league, please try again."
+            error: "There was an issue deleting this league"
           });
         });
     } else {
       res.status(500).json({
-        error: "You must be the manager of the league to delete it."
+        error: "You do not have admin privileges for this league"
       });
     }
   } else {
     res.status(500).json({
-      error:
-        "The league you are trying to delete does not exist in our database to be deleted."
+      error: "We could not find that league"
     });
   }
 });

@@ -34,11 +34,12 @@ router.get("/", (req, res) => {
 // DESCRIPTION: Gets all rounds data for a specific league
 
 router.get("/league/:league_id", async (req, res) => {
-  const league = await dbLeagues.getLeagueById(req.params.league_id);
+  const { league_id } = req.params;
+  const league = await dbLeagues.getLeagueById(league_id);
 
   if (league) {
     dbRounds
-      .getRoundsByLeague(req.params.league_id)
+      .getRoundsByLeague(league_id)
       .then(rounds => {
         if (rounds.length > 0) {
           const container = rounds.map(round => {
@@ -52,7 +53,7 @@ router.get("/league/:league_id", async (req, res) => {
           res.status(200).json(container);
         } else {
           res.status(500).json({
-            error: "There have not been any rounds added to this league yet."
+            error: "We could not find any rounds for this league"
           });
         }
       })
@@ -62,8 +63,7 @@ router.get("/league/:league_id", async (req, res) => {
       });
   } else {
     res.status(500).json({
-      error:
-      "We could not find that league"
+      error: "We could not find that league"
     });
   }
 });
@@ -73,12 +73,14 @@ router.get("/league/:league_id", async (req, res) => {
 // DESCRIPTION: Adds a round to the league
 
 router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
-  const league = await dbLeagues.getLeagueById(req.params.league_id);
+  const { league_id } = req.params;
+  const newRound = req.body;
+  const league = await dbLeagues.getLeagueById(league_id);
 
   if (league) {
     if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
       dbRounds
-        .addRound(req.body, req.params.league_id)
+        .addRound(newRound, league_id)
         .then(success => {
           if (success) {
             res.status(200).json({
@@ -86,16 +88,14 @@ router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
             });
           } else {
             res.status(500).json({
-              error:
-                "We were unable to create a round for this league. Please try again later."
+              error: "There was an issue creating this round"
             });
           }
         })
         .catch(err => {
           console.log(err);
           res.status(500).json({
-            error:
-            "We could not find that round"
+            error: "Server error creating this round"
           });
         });
     } else {
@@ -105,8 +105,7 @@ router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
     }
   } else {
     res.status(500).json({
-      error:
-      "We could not find that league"
+      error: "We could not find that league"
     });
   }
 });
@@ -119,14 +118,15 @@ router.delete(
   "/delete/:round_id/league/:league_id",
   restrictedAdmin,
   async (req, res) => {
-    const league = await dbLeagues.getLeagueById(req.params.league_id);
-    const round = await dbRounds.getRoundById(req.params.round_id);
+    const { league_id, round_id } = req.params;
+    const league = await dbLeagues.getLeagueById(league_id);
+    const round = await dbRounds.getRoundById(round_id);
 
     if (league) {
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (round && round.league_id === league.league_id) {
           dbRounds
-            .deleteRound(req.params.round_id)
+            .deleteRound(round_id)
             .then(() => {
               res.status(200).json({
                 success: `The round was successfully deleted from this league.`
@@ -135,8 +135,7 @@ router.delete(
             .catch(err => {
               console.log(err);
               res.status(500).json({
-                error:
-                  "There was an error trying to delete that round, please try again later."
+                error: "There was an issue deleting that round"
               });
             });
         } else {
@@ -151,8 +150,7 @@ router.delete(
       }
     } else {
       res.status(500).json({
-        error:
-        "We could not find that league"
+        error: "We could not find that league"
       });
     }
   }
@@ -163,44 +161,50 @@ router.delete(
 // DESCRIPTION: updates a round by round id
 
 router.put(
-  "/update/:round_id/league/:league_id", restrictedAdmin, (req, res) => {
-    const {league_id, round_id} = req.params;
-    const {changes} = req.body;
+  "/update/:round_id/league/:league_id",
+  restrictedAdmin,
+  async (req, res) => {
+    const { league_id, round_id } = req.params;
+    const { changes } = req.body;
     const league = await dbLeagues.getLeagueById(league_id);
     const round = await dbRounds.getRoundById(round_id);
 
-    if (league){
+    if (league) {
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (round && round.league_id === league.league_id) {
-          dbRounds.updateRound(round_id, changes).then(succes => {
-            if (success){
-              res.status(200).json(success)
-            }else{
-              res.status(500).json({ error: "There was an issue updating that round"})
-            }
-          }).catch(err => {
-            console.log(err);
-            res.status(500).json({ error: "Server error updating that round" });
-          });
-        }else{
+          dbRounds
+            .updateRound(round_id, changes)
+            .then(success => {
+              if (success) {
+                res.status(200).json(success);
+              } else {
+                res
+                  .status(500)
+                  .json({ error: "There was an issue updating that round" });
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              res
+                .status(500)
+                .json({ error: "Server error updating that round" });
+            });
+        } else {
           res.status(500).json({
-            error:
-              "We could not find that round"
+            error: "We could not find that round"
           });
         }
-      }else{
+      } else {
         res.status(500).json({
           error: "You do not have admin privileges for this league"
         });
       }
-     
-    }else{
+    } else {
       res.status(500).json({
-        error:
-          "We could not find that league"
+        error: "We could not find that league"
       });
     }
   }
-)
+);
 
 module.exports = router;
