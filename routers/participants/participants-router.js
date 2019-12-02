@@ -99,4 +99,125 @@ router.get(
   }
 );
 
+router.put(
+  "/league/:league_id/round/:round_id/member/:member_id/participant/:participant_id",
+  restrictedAdmin,
+  async (req, res) => {
+    const { league_id, round_id, member_id, participant_id } = req.params;
+    const changes = req.body;
+    const round = await dbRounds.getRoundById(round_id);
+    const league = await dbLeagues.getLeagueById(league_id);
+    const member = await dbMembers.getMemberById(member_id);
+    const participant = await dbParticipants.getParticipantById(participant_id);
+
+    if (league) {
+      if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+        if (round) {
+          if (member) {
+            if (
+              participant &&
+              participant.member_id === member.member_id &&
+              participant.round_id === round.round_id
+            ) {
+              dbParticipants
+                .updateParticipant(participant_id, changes)
+                .then(success => {
+                  if (success) {
+                    res.status(200).json(success);
+                  } else {
+                    res.status(500).json({
+                      error: "There was an issue updating that participant"
+                    });
+                  }
+                })
+                .catch(err => {
+                  console.log(err);
+                  res
+                    .status(500)
+                    .json({ error: "Server error updating that participant" });
+                });
+            } else {
+              res.status(500).json({
+                error: "We could not find that participant"
+              });
+            }
+          } else {
+            res.status(500).json({
+              error: "We could not find that member"
+            });
+          }
+        } else {
+          res.status(500).json({
+            error: "We could not find that round"
+          });
+        }
+      } else {
+        res.status(500).json({
+          error: "You do not have admin privileges for this league"
+        });
+      }
+    } else {
+      res.status(500).json({ error: "We could not find that league" });
+    }
+  }
+);
+
+router.delete(
+  "/league/:league_id/round/:round_id/member/:member_id/participant/:participant_id",
+  restrictedAdmin,
+  async (req, res) => {
+    const { league_id, round_id, member_id, participant_id } = req.params;
+    const round = await dbRounds.getRoundById(round_id);
+    const league = await dbLeagues.getLeagueById(league_id);
+    const member = await dbMembers.getMemberById(member_id);
+    const participant = await dbParticipants.getParticipantById(participant_id);
+
+    if (league) {
+      if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+        if (round) {
+          if (member) {
+            if (
+              participant &&
+              participant.member_id === member.member_id &&
+              participant.round_id === round.round_id
+            ) {
+              dbParticipants
+                .deleteParticipant(participant_id)
+                .then(() => {
+                  res.status(200).json({
+                    success: `Successfully deleted that participant`
+                  });
+                })
+                .catch(err => {
+                  console.log(err);
+                  res
+                    .status(500)
+                    .json({ error: "Server error deleting that participant" });
+                });
+            } else {
+              res.status(500).json({
+                error: "We could not find that participant"
+              });
+            }
+          } else {
+            res.status(500).json({
+              error: "We could not find that member"
+            });
+          }
+        } else {
+          res.status(500).json({
+            error: "We could not find that round"
+          });
+        }
+      } else {
+        res.status(500).json({
+          error: "You do not have admin privileges for this league"
+        });
+      }
+    } else {
+      res.status(500).json({ error: "We could not find that league" });
+    }
+  }
+);
+
 module.exports = router;

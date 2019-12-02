@@ -2,6 +2,7 @@ const db = require("../../data/dbConfig");
 
 module.exports = {
   getParticipants,
+  getParticipantById,
   getParticipantsByLeagueAndMember,
   getParticipantsByRoundId,
   updateParticipant,
@@ -10,6 +11,12 @@ module.exports = {
 
 function getParticipants() {
   return db("participants").select("*");
+}
+
+function getParticipantById(participant_id) {
+  return db("participants")
+    .where({ participant_id })
+    .first();
 }
 
 async function getParticipantsByLeagueAndMember(member_id) {
@@ -42,13 +49,20 @@ async function getParticipantsByRoundId(round_id) {
 }
 
 function updateParticipant(participant_id, changes) {
-  db("participants")
+  return db("participants")
     .where({ participant_id })
-    .update(changes, "*");
+    .update(changes, "*")
+    .then(success => {
+      if (success) {
+        return getParticipantById(participant_id);
+      } else {
+        return false;
+      }
+    });
 }
 
 function deleteParticipant(participant_id) {
-  db("participants")
-    .where("participant_id", participant_id)
+  return db("participants")
+    .where({ participant_id })
     .del();
 }

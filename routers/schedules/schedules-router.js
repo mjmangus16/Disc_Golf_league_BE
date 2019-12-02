@@ -58,7 +58,7 @@ router.get("/league/:league_id", async (req, res) => {
           .json({ error: "There was an issue grabbing the schedule data" });
       });
   } else {
-    res.status(500).json({ error: "That league does not exist" });
+    res.status(500).json({ error: "We could not find that league" });
   }
 });
 
@@ -97,7 +97,7 @@ router.post("/league/:league_id", restrictedAdmin, async (req, res) => {
     }
   } else {
     res.status(500).json({
-      error: "That league does not exist"
+      error: "We could not find that league"
     });
   }
 });
@@ -141,7 +141,7 @@ router.put(
       }
     } else {
       res.status(500).json({
-        error: "That league does not exist"
+        error: "We could not find that league"
       });
     }
   }
@@ -185,7 +185,7 @@ router.delete(
       }
     } else {
       res.status(500).json({
-        error: "That league does not exist"
+        error: "We could not find that league"
       });
     }
   }

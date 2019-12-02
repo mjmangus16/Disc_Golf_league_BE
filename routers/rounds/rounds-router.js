@@ -165,7 +165,7 @@ router.put(
   restrictedAdmin,
   async (req, res) => {
     const { league_id, round_id } = req.params;
-    const { changes } = req.body;
+    const changes = req.body;
     const league = await dbLeagues.getLeagueById(league_id);
     const round = await dbRounds.getRoundById(round_id);
 

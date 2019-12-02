@@ -94,7 +94,7 @@ router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
     }
   } else {
     res.status(500).json({
-      error: "We can not add a member to a league that does not exist."
+      error: "We could not find that league"
     });
   }
 });
@@ -107,44 +107,37 @@ router.put(
   "/update/:member_id/league/:league_id",
   restrictedAdmin,
   async (req, res) => {
-    const user = await dbUsers.getUserByEmail(req.body.email);
-    const league = await dbLeagues.getLeagueById(req.params.league_id);
-    const member = await dbMembers.getMemberById(req.params.member_id);
+    const { member_id, league_id } = req.params;
+    const { email } = req.body;
+    const user = await dbUsers.getUserByEmail(email);
+    const league = await dbLeagues.getLeagueById(league_id);
+    const member = await dbMembers.getMemberById(member_id);
 
     if (league) {
       if (league.league_id === member.league_id) {
         if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
           if (user) {
-            if (member) {
-              dbMembers
-                .updateMember(req.params.member_id, { user_id: user.user_id })
-                .then(() => {
-                  res.status(200).json({
-                    success: `${member.f_name} ${member.l_name} was successfully updated.`
-                  });
-                })
-                .catch(err => {
-                  console.log(err);
-                  res.status(500).json({
-                    error:
-                      "There was an error trying to update that member, please try again later."
-                  });
+            dbMembers
+              .updateMember(member_id, { user_id: user.user_id })
+              .then(() => {
+                res.status(200).json({
+                  success: `${member.f_name} ${member.l_name} was successfully updated.`
                 });
-            } else {
-              res.status(500).json({
-                error:
-                  "You must be the league owner to make updates to any members of the league."
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  error:
+                    "There was an error trying to update that member, please try again later."
+                });
               });
-            }
           } else {
-            res
-              .status(500)
-              .json({ error: "That member does not exist in our database." });
+            res.status(500).json({ error: "We could not find that user" });
           }
         } else {
-          res
-            .status(500)
-            .json({ error: "That email does not exist in our database." });
+          res.status(500).json({
+            error: "You do not have admin privileges for this league"
+          });
         }
       } else {
         res
@@ -152,9 +145,7 @@ router.put(
           .json({ error: "That member is not part of this league." });
       }
     } else {
-      res
-        .status(500)
-        .json({ error: "That league does not exist in our database." });
+      res.status(500).json({ error: "We could not find that league" });
     }
   }
 );
@@ -204,9 +195,7 @@ router.delete(
           .json({ error: "That member is not part of this league." });
       }
     } else {
-      res
-        .status(500)
-        .json({ error: "That league does not exist in our database." });
+      res.status(500).json({ error: "We could not find that league" });
     }
   }
 );
