@@ -26,7 +26,17 @@ async function getParticipantsByLeagueAndMember(member_id) {
     "=",
     "rounds.round_id"
   );
-  return rounds.filter(r => r.member_id == member_id);
+  const container = rounds.filter(r => r.member_id == member_id);
+
+  return container.map(c => {
+    return {
+      participant_id: c.participant_id,
+      date: c.date,
+      type: c.type,
+      location: c.location,
+      score: c.score
+    };
+  });
 }
 
 async function getParticipantsByRoundId(round_id) {

@@ -111,6 +111,26 @@ router.post("/signin", (req, res) => {
   });
 });
 
+router.get("/userid/:user_id", restricted, (req, res) => {
+  const { user_id } = req.params;
+
+  dbUsers
+    .getUserById(user_id)
+    .then(user => {
+      if (user) {
+        res.status(200).json({
+          email: user.email
+        });
+      } else {
+        res.status(500).json({ error: "Could not find that user" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ email: "Server error getting that user" });
+    });
+});
+
 router.get("/email/:email", restricted, (req, res) => {
   const { email } = req.params;
   dbUsers

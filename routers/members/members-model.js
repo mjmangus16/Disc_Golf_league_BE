@@ -24,17 +24,29 @@ async function getMembersByLeagueId(league_id) {
   container = members.map(m => {
     return {
       ...m,
-      rounds: participants.filter(p => p.member_id == m.member_id)
+      rounds: participants.filter(p => p.member_id == m.member_id).length
     };
   });
 
   return container;
 }
 
-function getMemberById(member_id) {
-  return db("members")
+async function getMemberById(member_id) {
+  const member = await db("members")
     .where("member_id", member_id)
     .first();
+
+  const user = await db("users")
+    .where("user_id", member.user_id)
+    .first();
+
+  return {
+    f_name: member.f_name,
+    l_name: member.l_name,
+    member_id: member.member_id,
+    user_id: user ? user.user_id : null,
+    email: user ? user.email : null
+  };
 }
 
 function addMemberToLeague(newMember, league_id) {

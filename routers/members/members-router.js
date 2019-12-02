@@ -2,6 +2,7 @@ const router = require("express").Router();
 const dbMembers = require("./members-model");
 const dbLeagues = require("../leagues/leagues-model");
 const dbUsers = require("../users/users-model");
+const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
 
@@ -56,6 +57,34 @@ router.get("/league/:league_id", (req, res) => {
         .json({ error: "Server error getting members for that league." });
     });
 });
+
+// TYPE:  GET
+// ROUTE:   /api/members/league/:league_id/member/:member_id
+// DESCRIPTION: Gets a member by member id
+
+router.get(
+  "/league/:league_id/member/:member_id",
+  restricted,
+  async (req, res) => {
+    const { league_id, member_id } = req.params;
+    const league = await dbLeagues.getLeagueById(league_id);
+    const member = await dbMembers.getMemberById(member_id);
+
+    if (league) {
+      if (member) {
+        res.status(200).json(member);
+      } else {
+        res.status(500).json({
+          error: "We could not find that member"
+        });
+      }
+    } else {
+      res.status(500).json({
+        error: "We could not find that league"
+      });
+    }
+  }
+);
 
 // TYPE:  POST
 // ROUTE:   /api/members/add/league/:league_id
@@ -158,15 +187,16 @@ router.delete(
   "/delete/:member_id/league/:league_id",
   restrictedAdmin,
   async (req, res) => {
-    const member = await dbMembers.getMemberById(req.params.member_id);
-    const league = await dbLeagues.getLeagueById(req.params.league_id);
+    const { member_id, league_id } = req.params;
+    const member = await dbMembers.getMemberById(member_id);
+    const league = await dbLeagues.getLeagueById(league_id);
 
     if (league) {
       if (league.league_id === member.league_id) {
         if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
           if (member) {
             dbMembers
-              .deleteMember(req.params.member_id)
+              .deleteMember(member_id)
               .then(() => {
                 res.status(200).json({
                   success: `${member.f_name} ${member.l_name} was successfully deleted from this league.`

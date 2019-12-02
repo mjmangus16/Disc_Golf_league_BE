@@ -99,6 +99,10 @@ router.get(
   }
 );
 
+// TYPE:  PUT
+// ROUTE:   /api/participants/league/:league_id/round/:round_id/member/:member_id/participant/:participant_id
+// DESCRIPTION: Updates a participant
+
 router.put(
   "/league/:league_id/round/:round_id/member/:member_id/participant/:participant_id",
   restrictedAdmin,
@@ -161,6 +165,10 @@ router.put(
     }
   }
 );
+
+// TYPE:  DELETE
+// ROUTE:   /api/participants/league/:league_id/round/:round_id/member/:member_id/participant/:participant_id
+// DESCRIPTION: Deletes a participant
 
 router.delete(
   "/league/:league_id/round/:round_id/member/:member_id/participant/:participant_id",
