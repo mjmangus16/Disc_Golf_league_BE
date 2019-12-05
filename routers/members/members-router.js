@@ -148,10 +148,14 @@ router.put(
           if (user) {
             dbMembers
               .updateMember(member_id, { user_id: user.user_id })
-              .then(() => {
-                res.status(200).json({
-                  success: `${member.f_name} ${member.l_name} was successfully updated.`
-                });
+              .then(success => {
+                if (success) {
+                  res.status(200).json(success);
+                } else {
+                  res
+                    .status(500)
+                    .json({ error: "There was an issue updating that member" });
+                }
               })
               .catch(err => {
                 console.log(err);

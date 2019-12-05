@@ -44,6 +44,7 @@ async function getMemberById(member_id) {
     f_name: member.f_name,
     l_name: member.l_name,
     member_id: member.member_id,
+    league_id: member.league_id,
     user_id: user ? user.user_id : null,
     email: user ? user.email : null
   };
@@ -61,7 +62,14 @@ function addMemberToLeague(newMember, league_id) {
 function updateMember(member_id, changes) {
   return db("members")
     .where({ member_id })
-    .update(changes, "*");
+    .update(changes, "*")
+    .then(success => {
+      if (success) {
+        return getMemberById(member_id);
+      } else {
+        return false;
+      }
+    });
 }
 
 async function deleteMember(member_id) {
