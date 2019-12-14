@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const dbRounds = require("./rounds-model");
 const dbLeagues = require("../leagues/leagues-model");
+const dbParticipants = require("../participants/participants-model");
 const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
@@ -68,6 +69,42 @@ router.get("/league/:league_id", async (req, res) => {
   }
 });
 
+// TYPE:  GET
+// ROUTE:   /api/rounds/league/:league_id/round/:round_id
+// DESCRIPTION: Gets a single round by round id
+
+router.get("/league/:league_id/round/:round_id", async (req, res) => {
+  const { league_id, round_id } = req.params;
+  const league = await dbLeagues.getLeagueById(league_id);
+  const round = await dbRounds.getRoundById(round_id);
+
+  if (league) {
+    if (round) {
+      dbParticipants
+        .getParticipantsByRoundId(round_id)
+        .then(parts => {
+          res
+            .status(200)
+            .json({ league: league.name, ...round, participants: parts });
+        })
+        .catch(err => {
+          console.log(err);
+          res
+            .status(500)
+            .json({ error: "Server error trying to get participants" });
+        });
+    } else {
+      res.status(500).json({
+        error: "We could not find that round"
+      });
+    }
+  } else {
+    res.status(500).json({
+      error: "We could not find that league"
+    });
+  }
+});
+
 // TYPE:  POST
 // ROUTE:   /api/rounds/add/league/:league_id
 // DESCRIPTION: Adds a round to the league
@@ -83,9 +120,7 @@ router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
         .addRound(newRound, league_id)
         .then(success => {
           if (success) {
-            res.status(200).json({
-              success: `We succussfully added a round to the ${league.name} League.`
-            });
+            res.status(200).json(success);
           } else {
             res.status(500).json({
               error: "There was an issue creating this round"

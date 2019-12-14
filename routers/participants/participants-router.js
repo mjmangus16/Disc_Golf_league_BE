@@ -46,7 +46,7 @@ router.get(
     if (league) {
       if (member) {
         dbParticipants
-          .getParticipantsByLeagueAndMember(league_id, member_id)
+          .getParticipantsByLeagueAndMember(member_id)
           .then(participants => {
             res.status(200).json(participants);
           })
@@ -92,6 +92,41 @@ router.get(
           });
       } else {
         res.status(500).json({ error: "We could not find that round" });
+      }
+    } else {
+      res.status(500).json({ error: "We could not find that league" });
+    }
+  }
+);
+
+// TYPE:  POST
+// ROUTE:   /api/participants/league/:league_id/round/:round_id
+// DESCRIPTION: Adds an array of participants
+
+router.post(
+  "/league/:league_id/round/:round_id",
+  restrictedAdmin,
+  async (req, res) => {
+    const { league_id, round_id } = req.params;
+    const round = await dbRounds.getRoundById(round_id);
+    const league = await dbLeagues.getLeagueById(league_id);
+    const participants = req.body;
+
+    if (league) {
+      if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+        if (round) {
+          dbParticipants
+            .addParticipants(round_id, participants)
+            .catch(err => console.log(err));
+        } else {
+          res.status(500).json({
+            error: "We could not find that round"
+          });
+        }
+      } else {
+        res.status(500).json({
+          error: "You do not have admin privileges for this league"
+        });
       }
     } else {
       res.status(500).json({ error: "We could not find that league" });

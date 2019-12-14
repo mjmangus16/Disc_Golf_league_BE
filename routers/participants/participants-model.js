@@ -5,6 +5,7 @@ module.exports = {
   getParticipantById,
   getParticipantsByLeagueAndMember,
   getParticipantsByRoundId,
+  addParticipants,
   updateParticipant,
   deleteParticipant
 };
@@ -56,6 +57,14 @@ async function getParticipantsByRoundId(round_id) {
         participant_id: p.participant_id
       };
     });
+}
+
+function addParticipants(round_id, participants) {
+  participants = participants.map(p => {
+    return { round_id, member_id: p.member_id, score: p.score };
+  });
+
+  return db("participants").insert(participants);
 }
 
 function updateParticipant(participant_id, changes) {
