@@ -54,7 +54,8 @@ async function getParticipantsByRoundId(round_id) {
         f_name: p.f_name,
         l_name: p.l_name,
         score: p.score,
-        participant_id: p.participant_id
+        participant_id: p.participant_id,
+        member_id: p.member_id
       };
     });
 }

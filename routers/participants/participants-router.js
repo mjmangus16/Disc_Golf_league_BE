@@ -111,13 +111,20 @@ router.post(
     const round = await dbRounds.getRoundById(round_id);
     const league = await dbLeagues.getLeagueById(league_id);
     const participants = req.body;
+    console.log(participants);
 
     if (league) {
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (round) {
           dbParticipants
             .addParticipants(round_id, participants)
-            .catch(err => console.log(err));
+            .then(() => res.status(200).json({ success: true }))
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error: "Server error trying to add participants"
+              });
+            });
         } else {
           res.status(500).json({
             error: "We could not find that round"

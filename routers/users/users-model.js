@@ -34,12 +34,12 @@ function addUser(newUser) {
     });
 }
 
-function updateUser(id, changes) {
+function updateUser(user_id, changes) {
   return db("users")
-    .where("user_id", id)
+    .where("user_id", user_id)
     .update(changes, "*")
     .then(user => {
-      return getUserById(id).first();
+      return getUserById(user_id);
     });
 }
 

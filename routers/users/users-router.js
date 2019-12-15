@@ -164,7 +164,7 @@ router.put("/update/:user_id", restricted, (req, res) => {
   }
 
   const { user_id } = req.params;
-  const { changes } = req.body;
+  const changes = req.body;
   dbUsers
     .getUserById(user_id)
     .then(user => {
