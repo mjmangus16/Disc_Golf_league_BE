@@ -44,7 +44,8 @@ router.post("/signup", (req, res) => {
     admin: req.body.admin
   };
 
-  newUser.password = bcrypt.hashSync(newUser.password, 10);
+  // newUser.password = bcrypt.hashSync(newUser.password, 10);
+
   dbUsers
     .addUser(newUser)
     .then(addedUser => {
