@@ -73,7 +73,6 @@ router.get("/id/:league_id", (req, res) => {
     .getLeagueById(req.params.league_id)
     .then(league => {
       if (league) {
-        league.schedule = JSON.parse(league.schedule);
         res.status(200).json(league);
       } else {
         res.status(500).json({ error: "We could not find that league" });
