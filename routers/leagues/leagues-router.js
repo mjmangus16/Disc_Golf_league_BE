@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const dbLeagues = require("./leagues-model");
+const dbMembers = require("../members/members-model");
 const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
@@ -18,10 +19,12 @@ router.get("/test", (req, res) => {
 // DESCRIPTION: Gets all data from all leagues
 
 router.get("/", (req, res) => {
+  console.log('mike was WRONG')
   dbLeagues
     .getLeagues()
     .then(leagues => {
       if (leagues.length > 0) {
+        console.log(leagues)
         res.status(200).json(leagues);
       } else {
         res.status(500).json({ error: "There are no leagues available" });
@@ -37,7 +40,10 @@ router.get("/", (req, res) => {
 // ROUTE:   /api/leagues/getLeagues
 // DESCRIPTION: Gets specific data for all leagues
 
-router.get("/getLeagues", (req, res) => {
+router.get("/getLeagues", async (req, res) => {
+  console.log("getLeagues route")
+  const members = await dbMembers.getMembers()
+
   dbLeagues
     .getLeagues()
     .then(leagues => {
@@ -46,11 +52,11 @@ router.get("/getLeagues", (req, res) => {
           return {
             league_id: league.league_id,
             name: league.name,
-            year: league.year,
             type: league.type,
             state: league.state,
             zip: league.zip,
-            active: league.active
+            days: league.days,
+            members: members.filter(member => member.league_id == league.league_id).length
           };
         });
         res.status(200).json(container);
@@ -144,9 +150,9 @@ router.post("/create", restrictedAdmin, (req, res) => {
     ? (newLeague.relationship_id = newLeague.relationship_id)
     : (newLeague.relationship_id = new Date().valueOf());
 
-  newLeague.schedule
-    ? (newLeague.schedule = JSON.stringify(newLeague.schedule))
-    : (newLeague.schedule = null);
+  // newLeague.schedule
+  //   ? (newLeague.schedule = JSON.stringify(newLeague.schedule))
+  //   : (newLeague.schedule = null);
 
   newLeague.owner_id = req.jwt.user_id;
 

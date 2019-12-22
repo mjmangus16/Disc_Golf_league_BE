@@ -17,6 +17,14 @@ exports.up = function(knex) {
       .inTable("rounds")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
+    participants
+      .integer("league_id")
+      .unsigned()
+      .notNullable()
+      .references("league_id")
+      .inTable("leagues")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
     participants.integer("score").notNullable();
   });
 };

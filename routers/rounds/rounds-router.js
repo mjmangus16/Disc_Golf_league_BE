@@ -37,7 +37,7 @@ router.get("/", (req, res) => {
 router.get("/league/:league_id", async (req, res) => {
   const { league_id } = req.params;
   const league = await dbLeagues.getLeagueById(league_id);
-
+  const participants_array = await dbParticipants.getParticipantsByLeague(league_id)
   if (league) {
     dbRounds
       .getRoundsByLeague(league_id)
@@ -48,7 +48,8 @@ router.get("/league/:league_id", async (req, res) => {
               round_id: round.round_id,
               date: round.date,
               type: round.type,
-              round_num: round.round_num
+              round_num: round.round_num,
+              participants: participants_array.filter(x => x.round_id == round.round_id).length
             };
           });
           res.status(200).json(container);

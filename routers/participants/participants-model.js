@@ -7,7 +7,8 @@ module.exports = {
   getParticipantsByRoundId,
   addParticipants,
   updateParticipant,
-  deleteParticipant
+  deleteParticipant,
+  getParticipantsByLeague
 };
 
 function getParticipants() {
@@ -18,6 +19,11 @@ function getParticipantById(participant_id) {
   return db("participants")
     .where({ participant_id })
     .first();
+}
+
+function getParticipantsByLeague(league_id) {
+  return db("participants")
+    .where({ league_id })
 }
 
 async function getParticipantsByLeagueAndMember(member_id) {
@@ -62,7 +68,7 @@ async function getParticipantsByRoundId(round_id) {
 
 function addParticipants(round_id, participants) {
   participants = participants.map(p => {
-    return { round_id, member_id: p.member_id, score: p.score };
+    return { round_id, member_id: p.member_id, score: p.score, league_id:p.league_id };
   });
 
   return db("participants").insert(participants);
@@ -86,3 +92,5 @@ function deleteParticipant(participant_id) {
     .where({ participant_id })
     .del();
 }
+
+
