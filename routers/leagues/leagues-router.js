@@ -106,7 +106,6 @@ router.get("/user", restricted, async (req, res) => {
   const userLeagues = await dbLeagues.getLeaguesByUserId(req.jwt.user_id);
 
   if (userLeagues.length > 0) {
-    console.log(userLeagues);
     const container = userLeagues.map(league => {
       return {
         league_id: league.league_id,
