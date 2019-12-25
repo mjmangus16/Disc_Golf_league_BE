@@ -18,7 +18,7 @@ exports.seed = function(knex) {
           length: "November - March",
           active: false,
           contact:
-            "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
+            "Michael Mangus: 123-456-7890  / mike@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           description: "This is a combined singles and doubles putting league.",
           owner_id: 1
         },
@@ -52,7 +52,7 @@ exports.seed = function(knex) {
           length: "November - March",
           active: true,
           contact:
-            "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
+            "Michael Mangus: 123-456-7890  / mike@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           description: "This is a combined singles and doubles putting league.",
           owner_id: 1
         },
@@ -69,7 +69,7 @@ exports.seed = function(knex) {
           length: "March - September",
           active: false,
           contact:
-            "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
+            "Michael Mangus: 123-456-7890  / mike@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           additional: "There will be no league on August 5th.",
           description:
             "This is a random draw doubles league held at Ellicot Creek DGC.",
@@ -87,7 +87,7 @@ exports.seed = function(knex) {
           days: "Wed",
           active: false,
           contact:
-            "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
+            "Michael Mangus: 123-456-7890  / mike@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
 
           description:
             "This is a travel singles league. Courses played are Emery, Beaver Island State Park, Wilson-Tuscarora, Outwater, Joseph Davis and Chestnut Ridge.",
@@ -105,7 +105,7 @@ exports.seed = function(knex) {
           days: "Wed",
           active: true,
           contact:
-            "Michael Mangus: 716-213-7444 / mjmangus16@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
+            "Michael Mangus: 123-456-7890  / mike@yahoo.com, Jimmy Carman: 123-456-7890 / Jimmy@example.com",
           description:
             "This is a travel singles league. Courses played are Emery, Beaver Island State Park, Wilson-Tuscarora, Outwater, Joseph Davis and Chestnut Ridge.",
           owner_id: 1
