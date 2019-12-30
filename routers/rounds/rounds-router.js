@@ -5,7 +5,8 @@ const dbParticipants = require("../participants/participants-model");
 const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
-
+const validateCreateRound = require("../../validation/rounds/create");
+const validateEditRound = require("../../validation/rounds/edit");
 router.get("/test", (req, res) => {
   res.send("The rounds router is working!");
 });
@@ -37,7 +38,9 @@ router.get("/", (req, res) => {
 router.get("/league/:league_id", async (req, res) => {
   const { league_id } = req.params;
   const league = await dbLeagues.getLeagueById(league_id);
-  const participants_array = await dbParticipants.getParticipantsByLeague(league_id)
+  const participants_array = await dbParticipants.getParticipantsByLeague(
+    league_id
+  );
   if (league) {
     dbRounds
       .getRoundsByLeague(league_id)
@@ -49,7 +52,9 @@ router.get("/league/:league_id", async (req, res) => {
               date: round.date,
               type: round.type,
               round_num: round.round_num,
-              participants: participants_array.filter(x => x.round_id == round.round_id).length
+              participants: participants_array.filter(
+                x => x.round_id == round.round_id
+              ).length
             };
           });
           res.status(200).json(container);
@@ -111,6 +116,12 @@ router.get("/league/:league_id/round/:round_id", async (req, res) => {
 // DESCRIPTION: Adds a round to the league
 
 router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
+  const { errors, isValid } = validateCreateRound(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const { league_id } = req.params;
   const newRound = req.body;
   const league = await dbLeagues.getLeagueById(league_id);
@@ -200,8 +211,15 @@ router.put(
   "/update/:round_id/league/:league_id",
   restrictedAdmin,
   async (req, res) => {
+    const { errors, isValid } = validateEditRound(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
     const { league_id, round_id } = req.params;
     const changes = req.body;
+
     const league = await dbLeagues.getLeagueById(league_id);
     const round = await dbRounds.getRoundById(round_id);
 
@@ -209,7 +227,7 @@ router.put(
       if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
         if (round && round.league_id === league.league_id) {
           dbRounds
-            .updateRound(round_id, changes)
+            .updateRound(round_id, changes, league.league_id)
             .then(success => {
               if (success) {
                 res.status(200).json(success);

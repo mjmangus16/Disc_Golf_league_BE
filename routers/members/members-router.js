@@ -5,6 +5,8 @@ const dbUsers = require("../users/users-model");
 const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
+const validateCreateMember = require("../../validation/members/create");
+const validateEditMember = require("../../validation/members/edit");
 
 // TYPE:  GET
 // ROUTE:   /api/members/test
@@ -91,6 +93,12 @@ router.get(
 // DESCRIPTION: Adds a member to a league
 
 router.post("/add/league/:league_id", restrictedAdmin, async (req, res) => {
+  const { errors, isValid } = validateCreateMember(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const league = await dbLeagues.getLeagueById(req.params.league_id);
 
   let newMember = {
@@ -136,6 +144,12 @@ router.put(
   "/update/:member_id/league/:league_id",
   restrictedAdmin,
   async (req, res) => {
+    const { errors, isValid } = validateEditMember(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
     const { member_id, league_id } = req.params;
     const { email } = req.body;
     const user = await dbUsers.getUserByEmail(email);
