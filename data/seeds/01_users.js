@@ -165,6 +165,15 @@ exports.seed = function(knex) {
           f_name: "user20",
           l_name: "lastName20",
           admin: false
+        },
+        {
+          user_id: 21,
+          email: "user21@email.com",
+          password: "123456",
+          f_name: "user12",
+          l_name: "lastName21",
+          org_name: "Organization 21",
+          admin: true
         }
       ]);
     });

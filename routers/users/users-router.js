@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const dbUsers = require("./users-model");
+const dbLeagues = require("../leagues/leagues-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const restricted = require("../../middleware/restricted");
@@ -136,7 +137,7 @@ router.get("/email/:email", restricted, (req, res) => {
   const { email } = req.params;
   dbUsers
     .getUserByEmail(email)
-    .then(user => {
+    .then(async user => {
       if (user) {
         res.status(200).json({
           user_id: user.user_id,

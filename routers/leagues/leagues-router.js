@@ -5,6 +5,7 @@ const restricted = require("../../middleware/restricted");
 const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
 const validateCreateLeague = require("../../validation/leagues/create");
+const validateEditLeague = require("../../validation/leagues/edit");
 
 // TYPE:  GET
 // ROUTE:   /api/leagues/test
@@ -19,12 +20,10 @@ router.get("/test", (req, res) => {
 // DESCRIPTION: Gets all data from all leagues
 
 router.get("/", (req, res) => {
-  console.log('mike was WRONG')
   dbLeagues
     .getLeagues()
     .then(leagues => {
       if (leagues.length > 0) {
-        console.log(leagues)
         res.status(200).json(leagues);
       } else {
         res.status(500).json({ error: "There are no leagues available" });
@@ -41,8 +40,7 @@ router.get("/", (req, res) => {
 // DESCRIPTION: Gets specific data for all leagues
 
 router.get("/getLeagues", async (req, res) => {
-  console.log("getLeagues route")
-  const members = await dbMembers.getMembers()
+  const members = await dbMembers.getMembers();
 
   dbLeagues
     .getLeagues()
@@ -56,7 +54,9 @@ router.get("/getLeagues", async (req, res) => {
             state: league.state,
             zip: league.zip,
             days: league.days,
-            members: members.filter(member => member.league_id == league.league_id).length
+            members: members.filter(
+              member => member.league_id == league.league_id
+            ).length
           };
         });
         res.status(200).json(container);
@@ -178,6 +178,12 @@ router.post("/create", restrictedAdmin, (req, res) => {
 // DESCRIPTION: Updates a league if the user is the manager of that league
 
 router.put("/update/:league_id", restrictedAdmin, async (req, res) => {
+  const { errors, isValid } = validateEditLeague(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const league = await dbLeagues.getLeagueById(req.params.league_id);
 
   if (league) {
