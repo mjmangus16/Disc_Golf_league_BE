@@ -7,11 +7,16 @@ module.exports = {
   updateLeague,
   deleteLeague,
   getLeaguesByOwnerId,
-  getLeaguesByUserId
+  getLeaguesByUserId,
+  getLeaguesByState
 };
 
 function getLeagues() {
   return db("leagues").select("*");
+}
+
+function getLeaguesByState(state) {
+  return db("leagues").where({ state });
 }
 
 function getLeagueById(league_id) {

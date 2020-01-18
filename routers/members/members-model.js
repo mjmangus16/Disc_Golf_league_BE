@@ -54,7 +54,6 @@ function addMemberToLeague(newMember, league_id) {
   return db("members")
     .insert({ ...newMember, league_id }, "member_id")
     .then(member => {
-      console.log(member);
       const [id] = member;
       return getMemberById(id);
     });
