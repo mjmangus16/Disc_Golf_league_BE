@@ -39,9 +39,6 @@ async function addRound(newRound, league_id) {
 }
 
 async function updateRound(round_id, changes, league_id) {
-  console.log(league_id);
-  const rounds = await db("rounds").where({ league_id });
-  console.log(rounds);
   return db("rounds")
     .where({ round_id })
     .update(changes, "*")
