@@ -108,6 +108,46 @@ router.get("/getLeagues/state/:state", async (req, res) => {
 });
 
 // TYPE:  GET
+// ROUTE:   /api/leagues/getLeagues/name/:name
+// DESCRIPTION: Gets specific data for leagues that contain :name in their name
+
+router.get(
+  "/getLeagues/state/:state/val/:val/input/:input",
+  async (req, res) => {
+    const members = await dbMembers.getMembers();
+    const { state, val, input } = req.params;
+    dbLeagues
+      .getLeaguesByVal(state, val, input)
+      .then(leagues => {
+        if (leagues.length > 0) {
+          let container = leagues.map(league => {
+            return {
+              league_id: league.league_id,
+              name: league.name,
+              type: league.type,
+              state: league.state,
+              zip: league.zip,
+              days: league.days,
+              members: members.filter(
+                member => member.league_id == league.league_id
+              ).length
+            };
+          });
+          res.status(200).json(container);
+        } else {
+          res
+            .status(500)
+            .json({ error: "There are no leagues available with that name" });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "Server error getting leagues" });
+      });
+  }
+);
+
+// TYPE:  GET
 // ROUTE:   /api/leagues/id/:league_id
 // DESCRIPTION: Gets all league data for a single league by id
 

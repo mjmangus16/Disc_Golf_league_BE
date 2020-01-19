@@ -8,7 +8,8 @@ module.exports = {
   deleteLeague,
   getLeaguesByOwnerId,
   getLeaguesByUserId,
-  getLeaguesByState
+  getLeaguesByState,
+  getLeaguesByVal
 };
 
 function getLeagues() {
@@ -17,6 +18,17 @@ function getLeagues() {
 
 function getLeaguesByState(state) {
   return db("leagues").where({ state });
+}
+
+function getLeaguesByVal(state, val, input) {
+  console.log(val);
+  if (state === "All") {
+    return db("leagues").where(`${val}`, "like", `%${input}%`);
+  } else {
+    return db("leagues")
+      .where({ state })
+      .andWhere(`${val}`, "like", `%${input}%`);
+  }
 }
 
 function getLeagueById(league_id) {
