@@ -1,12 +1,12 @@
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex("standings_format")
+  return knex("standings")
     .del()
     .then(function() {
       // Inserts seed entries
-      return knex("standings_format").insert([
+      return knex("standings").insert([
         {
-          standings_format_id: 1,
+          standings_id: 1,
           members_count: 10,
           type: "points",
           league_id: 1
