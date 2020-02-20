@@ -21,7 +21,6 @@ function getLeaguesByState(state) {
 }
 
 function getLeaguesByVal(state, val, input) {
-  console.log(val);
   if (state === "All") {
     return db("leagues").where(`${val}`, "like", `%${input}%`);
   } else {
