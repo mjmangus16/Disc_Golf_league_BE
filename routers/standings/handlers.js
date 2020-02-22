@@ -6,6 +6,18 @@ module.exports = (type, participants) => {
   }
 };
 
+/*
+  singles_points
+    - We get all the participants from that league
+    - We need to seperate participants into like rounds so that we can sort them.
+      - Once sorted we can give participants the correct amount of points for where they placed.
+        - 20 participants in a round = 1st gets 20 points ... last gets 1 point
+    - We need to organize the participant data so that each member has all their rounds coupled together.
+      - This is how we want the data to be organized when its returned
+      - The returned data should be an array of arrays with each inner array being all the rounds played by a single member
+
+*/
+
 const singles_points = participants => {
   let roundsSet = new Set();
   let membersSet = new Set();
