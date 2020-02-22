@@ -44,19 +44,9 @@ const singles_points = participants => {
     } else {
       // Sort here
       // -- loop through current array
-      let i = 0;
-      while (i < partsCont[p.round_id].length) {
-        // ---- If p.score is > scores[i] && <= scores[i + 1]
-        // ---- Or if scores[i+1] does not exist
-        if (!partsCont[p.round_id][i + 1]) {
-          partsCont[p.round_id][i + 1] = p;
-          break;
-        } else if (p.score > partsCont[p.round_id][i].score) {
-          i++;
-        } else if (p.score <= partsCont[p.round_id][i].score) {
-          i++;
-        }
-      }
+      // ---- If p.score is > scores[i] && <= scores[i + 1]
+      // ---- Or if scores[i+1] does not exist
+      const sortFunc = () => {};
 
       // ------ Insert p into index + 1 and move every index after p 1 spot to the right.
       // ** recursion?? **
