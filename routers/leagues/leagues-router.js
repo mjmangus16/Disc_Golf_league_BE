@@ -108,7 +108,7 @@ router.get("/getLeagues/state/:state", async (req, res) => {
 });
 
 // TYPE:  GET
-// ROUTE:   /api/leagues/getLeagues/name/:name
+// ROUTE:   /api/leagues/getLeagues/state/:state/val/:val/input/:input
 // DESCRIPTION: Gets specific data for leagues that contain :name in their name
 
 router.get(
