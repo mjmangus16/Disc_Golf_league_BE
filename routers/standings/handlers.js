@@ -71,6 +71,8 @@ const singles_points = participants => {
   // Best score is awared the length of the array.
   // Each place after that is 1 point less than the place before it with last place taking 1 point.
 
+  const container = [];
+
   // Loop through each round
   for (let key in partsCont) {
     const length = partsCont[key].length;
@@ -79,21 +81,23 @@ const singles_points = participants => {
     while (index < length - 1) {
       // check that the score doesn't match the next score
       if (partsCont[key][index].score !== partsCont[key][index + 1].score) {
-        console.log("breaking here");
         partsCont[key][index].points = length - index;
+        container.push(partsCont[key][index]);
         index++;
       } else {
+        // If there is a match, count how many matches there are
         let count = 0;
-        const getAvg = () => {
+        const getCount = () => {
           if (
             partsCont[key][index + count] &&
             partsCont[key][index].score === partsCont[key][index + count].score
           ) {
             count++;
-            getAvg();
+            getCount();
           }
         };
-        getAvg();
+        getCount();
+        // Get the number of points that should be given to each participant in part of the tie
         let points = length - index;
         let total = 0;
         for (let y = 0; y < count; y++) {
@@ -102,20 +106,29 @@ const singles_points = participants => {
         let adjusted = total / count;
         for (let y = 0; y < count; y++) {
           partsCont[key][index + y].points = adjusted;
+          container.push(partsCont[key][index + y]);
         }
+        // Increase the index by the count so that we skip over all the participants we just adjusted
         index = index + count;
       }
     }
   }
 
-  // *** combine these ***
-  // Award points based on sorted position
-  // -- loop through keys in container then loop through sorted array to set points
-  // ---- If there are matching scores, we need to award == points to all matches
-
-  return partsCont;
-
   // Once points are awarded accordingly we need to return the data so that each members participants are return all together seperate from the other members
+  let finalArray = [];
+
+  // Create an array inside finalArray at the index of each member_id
+  // fill each index with the matching participants
+  for (let i = 0; i < container.length; i++) {
+    if (!finalArray[container[i].member_id]) {
+      finalArray[container[i].member_id] = [container[i]];
+    } else {
+      finalArray[container[i].member_id].push(container[i]);
+    }
+  }
+
+  // Remove all null values from the finalArray
+  return finalArray.filter(e => e != null);
 };
 
 // const singles_points = participants => {
