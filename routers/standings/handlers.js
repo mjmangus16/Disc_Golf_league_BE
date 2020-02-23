@@ -39,10 +39,9 @@ const singles_points = participants => {
     // ---- If object[participant_round_id] exists, pass participant into array. ELSE create that key, value pair and then pass participant into array.
     p.score = p.score - Math.floor(Math.random() * 10);
     if (!partsCont[p.round_id]) {
-      console.log("creating array");
       partsCont[p.round_id] = [p];
     } else {
-      // Sorting algorithm
+      // ---- Sorting algorithm -----
       let index = 0;
 
       // While we are not at the end of the array and the new score is greater than the score of the index in the array then all we need to do is increase the index by one to continue through the array.
@@ -66,13 +65,55 @@ const singles_points = participants => {
       partsCont[p.round_id][index] = p;
     }
   });
-  return partsCont;
 
-  // -- loop through keys in container object and sort the values accordingly
+  // --- SET POINTS EARNED ---
+  // Need to award points to each participant based on where they placed for that round.
+  // Best score is awared the length of the array.
+  // Each place after that is 1 point less than the place before it with last place taking 1 point.
+
+  // Loop through each round
+  for (let key in partsCont) {
+    const length = partsCont[key].length;
+    // Loop through participants from each round
+    let index = 0;
+    while (index < length - 1) {
+      // check that the score doesn't match the next score
+      if (partsCont[key][index].score !== partsCont[key][index + 1].score) {
+        console.log("breaking here");
+        partsCont[key][index].points = length - index;
+        index++;
+      } else {
+        let count = 0;
+        const getAvg = () => {
+          if (
+            partsCont[key][index + count] &&
+            partsCont[key][index].score === partsCont[key][index + count].score
+          ) {
+            count++;
+            getAvg();
+          }
+        };
+        getAvg();
+        let points = length - index;
+        let total = 0;
+        for (let y = 0; y < count; y++) {
+          total = total + points - y;
+        }
+        let adjusted = total / count;
+        for (let y = 0; y < count; y++) {
+          partsCont[key][index + y].points = adjusted;
+        }
+        index = index + count;
+      }
+    }
+  }
+
   // *** combine these ***
   // Award points based on sorted position
   // -- loop through keys in container then loop through sorted array to set points
   // ---- If there are matching scores, we need to award == points to all matches
+
+  return partsCont;
 
   // Once points are awarded accordingly we need to return the data so that each members participants are return all together seperate from the other members
 };
