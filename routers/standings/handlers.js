@@ -42,19 +42,32 @@ const singles_points = participants => {
       console.log("creating array");
       partsCont[p.round_id] = [p];
     } else {
-      // Sort here
-      // -- loop through current array
-      // ---- If p.score is > scores[i] && <= scores[i + 1]
-      // ---- Or if scores[i+1] does not exist
-      const sortFunc = () => {};
+      // Sorting algorithm
+      let index = 0;
 
-      // ------ Insert p into index + 1 and move every index after p 1 spot to the right.
-      // ** recursion?? **
+      // While we are not at the end of the array and the new score is greater than the score of the index in the array then all we need to do is increase the index by one to continue through the array.
+      // This allows us to find the index that the new score belongs at.
+      while (
+        partsCont[p.round_id][index] &&
+        p.score > partsCont[p.round_id][index].score
+      ) {
+        index++;
+      }
+
+      // Once the index is found, we add an empty object to the back of the array. This allows us to move items in the array before we add the new item.
+      partsCont[p.round_id].push({});
+
+      // We then start at the back of the array which is the empty object and "slurp" the object in front of it into that spot.
+      // We loop through backwards until we get to the spot that the new score belongs at.
+      for (let i = partsCont[p.round_id].length - 1; i > index; i--) {
+        partsCont[p.round_id][i] = partsCont[p.round_id][i - 1];
+      }
+      // Add the new score at the selected index
+      partsCont[p.round_id][index] = p;
     }
   });
   return partsCont;
 
-  // sort each rounds participants by score from lowest to highest
   // -- loop through keys in container object and sort the values accordingly
   // *** combine these ***
   // Award points based on sorted position

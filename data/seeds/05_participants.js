@@ -1,171 +1,1131 @@
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex("participants")
-  .del()
+    .del()
     .then(function() {
       // Inserts seed entries
       return knex("participants").insert([
-        { participant_id: 1, member_id: 1, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 2, member_id: 1, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 3, member_id: 1, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 4, member_id: 1, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 5, member_id: 1, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 6, member_id: 1, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 7, member_id: 1, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 8, member_id: 1, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 9, member_id: 2, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 10, member_id: 2, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 11, member_id: 2, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 12, member_id: 2, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 13, member_id: 2, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 14, member_id: 2, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 15, member_id: 2, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 16, member_id: 2, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 17, member_id: 3, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 18, member_id: 3, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 19, member_id: 3, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 20, member_id: 3, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 21, member_id: 3, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 22, member_id: 3, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 23, member_id: 3, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 24, member_id: 3, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 25, member_id: 4, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 26, member_id: 4, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 27, member_id: 4, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 28, member_id: 4, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 29, member_id: 4, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 30, member_id: 4, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 31, member_id: 4, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 32, member_id: 4, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 33, member_id: 5, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 34, member_id: 5, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 35, member_id: 5, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 36, member_id: 5, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 37, member_id: 5, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 38, member_id: 5, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 39, member_id: 5, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 40, member_id: 5, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 41, member_id: 6, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 42, member_id: 6, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 43, member_id: 6, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 44, member_id: 6, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 45, member_id: 6, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 46, member_id: 6, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 47, member_id: 6, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 48, member_id: 6, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 49, member_id: 7, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 50, member_id: 7, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 51, member_id: 7, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 52, member_id: 7, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 53, member_id: 7, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 54, member_id: 7, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 55, member_id: 7, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 56, member_id: 7, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 57, member_id: 8, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 58, member_id: 8, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 59, member_id: 8, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 60, member_id: 8, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 61, member_id: 8, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 62, member_id: 8, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 63, member_id: 8, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 64, member_id: 8, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 65, member_id: 9, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 66, member_id: 9, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 67, member_id: 9, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 68, member_id: 9, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 69, member_id: 9, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 70, member_id: 9, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 71, member_id: 9, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 72, member_id: 9, round_id: 8, score: 55, league_id: 1 },
-        { participant_id: 73, member_id: 10, round_id: 1, score: 55, league_id: 1 },
-        { participant_id: 74, member_id: 10, round_id: 2, score: 55, league_id: 1 },
-        { participant_id: 75, member_id: 10, round_id: 3, score: 55, league_id: 1 },
-        { participant_id: 76, member_id: 10, round_id: 4, score: 55, league_id: 1 },
-        { participant_id: 77, member_id: 10, round_id: 5, score: 55, league_id: 1 },
-        { participant_id: 78, member_id: 10, round_id: 6, score: 55, league_id: 1 },
-        { participant_id: 79, member_id: 10, round_id: 7, score: 55, league_id: 1 },
-        { participant_id: 80, member_id: 10, round_id: 8, score: 55, league_id: 1 },
+        {
+          participant_id: 1,
+          member_id: 1,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 2,
+          member_id: 1,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 3,
+          member_id: 1,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 4,
+          member_id: 1,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 5,
+          member_id: 1,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 6,
+          member_id: 1,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 7,
+          member_id: 1,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 8,
+          member_id: 1,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 9,
+          member_id: 2,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 10,
+          member_id: 2,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 11,
+          member_id: 2,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 12,
+          member_id: 2,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 13,
+          member_id: 2,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 14,
+          member_id: 2,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 15,
+          member_id: 2,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 16,
+          member_id: 2,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 17,
+          member_id: 3,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 18,
+          member_id: 3,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 19,
+          member_id: 3,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 20,
+          member_id: 3,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 21,
+          member_id: 3,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 22,
+          member_id: 3,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 23,
+          member_id: 3,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 24,
+          member_id: 3,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 25,
+          member_id: 4,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 26,
+          member_id: 4,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 27,
+          member_id: 4,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 28,
+          member_id: 4,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 29,
+          member_id: 4,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 30,
+          member_id: 4,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 31,
+          member_id: 4,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 32,
+          member_id: 4,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 33,
+          member_id: 5,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 34,
+          member_id: 5,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 35,
+          member_id: 5,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 36,
+          member_id: 5,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 37,
+          member_id: 5,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 38,
+          member_id: 5,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 39,
+          member_id: 5,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 40,
+          member_id: 5,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 41,
+          member_id: 6,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 42,
+          member_id: 6,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 43,
+          member_id: 6,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 44,
+          member_id: 6,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 45,
+          member_id: 6,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 46,
+          member_id: 6,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 47,
+          member_id: 6,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 48,
+          member_id: 6,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 49,
+          member_id: 7,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 50,
+          member_id: 7,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 51,
+          member_id: 7,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 52,
+          member_id: 7,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 53,
+          member_id: 7,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 54,
+          member_id: 7,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 55,
+          member_id: 7,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 56,
+          member_id: 7,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 57,
+          member_id: 8,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 58,
+          member_id: 8,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 59,
+          member_id: 8,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 60,
+          member_id: 8,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 61,
+          member_id: 8,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 62,
+          member_id: 8,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 63,
+          member_id: 8,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 64,
+          member_id: 8,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 65,
+          member_id: 9,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 66,
+          member_id: 9,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 67,
+          member_id: 9,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 68,
+          member_id: 9,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 69,
+          member_id: 9,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 70,
+          member_id: 9,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 71,
+          member_id: 9,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 72,
+          member_id: 9,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 73,
+          member_id: 10,
+          round_id: 1,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 74,
+          member_id: 10,
+          round_id: 2,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 75,
+          member_id: 10,
+          round_id: 3,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 76,
+          member_id: 10,
+          round_id: 4,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 77,
+          member_id: 10,
+          round_id: 5,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 78,
+          member_id: 10,
+          round_id: 6,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 79,
+          member_id: 10,
+          round_id: 7,
+          score: 55,
+          league_id: 1
+        },
+        {
+          participant_id: 80,
+          member_id: 10,
+          round_id: 8,
+          score: 55,
+          league_id: 1
+        },
 
-        { participant_id: 81, member_id: 11, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 82, member_id: 11, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 83, member_id: 11, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 84, member_id: 11, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 85, member_id: 11, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 86, member_id: 11, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 87, member_id: 11, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 88, member_id: 11, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 89, member_id: 12, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 90, member_id: 12, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 91, member_id: 12, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 92, member_id: 12, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 93, member_id: 12, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 94, member_id: 12, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 95, member_id: 12, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 96, member_id: 12, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 97, member_id: 13, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 98, member_id: 13, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 99, member_id: 13, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 100, member_id: 13, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 101, member_id: 13, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 102, member_id: 13, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 103, member_id: 13, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 104, member_id: 13, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 105, member_id: 14, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 106, member_id: 14, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 107, member_id: 14, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 108, member_id: 14, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 109, member_id: 14, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 110, member_id: 14, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 111, member_id: 14, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 112, member_id: 14, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 113, member_id: 15, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 114, member_id: 15, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 115, member_id: 15, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 116, member_id: 15, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 117, member_id: 15, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 118, member_id: 15, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 119, member_id: 15, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 120, member_id: 15, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 121, member_id: 16, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 122, member_id: 16, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 123, member_id: 16, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 124, member_id: 16, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 125, member_id: 16, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 126, member_id: 16, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 127, member_id: 16, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 128, member_id: 16, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 129, member_id: 17, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 130, member_id: 17, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 131, member_id: 17, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 132, member_id: 17, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 133, member_id: 17, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 134, member_id: 17, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 135, member_id: 17, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 136, member_id: 17, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 137, member_id: 18, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 138, member_id: 18, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 139, member_id: 18, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 140, member_id: 18, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 141, member_id: 18, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 142, member_id: 18, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 143, member_id: 18, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 144, member_id: 18, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 145, member_id: 19, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 146, member_id: 19, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 147, member_id: 19, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 148, member_id: 19, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 149, member_id: 19, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 150, member_id: 19, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 151, member_id: 19, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 152, member_id: 19, round_id: 16, score: 55, league_id: 2 },
-        { participant_id: 153, member_id: 20, round_id: 9, score: 55, league_id: 2 },
-        { participant_id: 154, member_id: 20, round_id: 10, score: 55, league_id: 2 },
-        { participant_id: 155, member_id: 20, round_id: 11, score: 55, league_id: 2 },
-        { participant_id: 156, member_id: 20, round_id: 12, score: 55, league_id: 2 },
-        { participant_id: 157, member_id: 20, round_id: 13, score: 55, league_id: 2 },
-        { participant_id: 158, member_id: 20, round_id: 14, score: 55, league_id: 2 },
-        { participant_id: 159, member_id: 20, round_id: 15, score: 55, league_id: 2 },
-        { participant_id: 160, member_id: 20, round_id: 16, score: 55, league_id: 2 },
+        {
+          participant_id: 81,
+          member_id: 11,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 82,
+          member_id: 11,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 83,
+          member_id: 11,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 84,
+          member_id: 11,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 85,
+          member_id: 11,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 86,
+          member_id: 11,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 87,
+          member_id: 11,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 88,
+          member_id: 11,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 89,
+          member_id: 12,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 90,
+          member_id: 12,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 91,
+          member_id: 12,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 92,
+          member_id: 12,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 93,
+          member_id: 12,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 94,
+          member_id: 12,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 95,
+          member_id: 12,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 96,
+          member_id: 12,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 97,
+          member_id: 13,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 98,
+          member_id: 13,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 99,
+          member_id: 13,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 100,
+          member_id: 13,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 101,
+          member_id: 13,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 102,
+          member_id: 13,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 103,
+          member_id: 13,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 104,
+          member_id: 13,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 105,
+          member_id: 14,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 106,
+          member_id: 14,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 107,
+          member_id: 14,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 108,
+          member_id: 14,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 109,
+          member_id: 14,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 110,
+          member_id: 14,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 111,
+          member_id: 14,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 112,
+          member_id: 14,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 113,
+          member_id: 15,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 114,
+          member_id: 15,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 115,
+          member_id: 15,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 116,
+          member_id: 15,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 117,
+          member_id: 15,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 118,
+          member_id: 15,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 119,
+          member_id: 15,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 120,
+          member_id: 15,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 121,
+          member_id: 16,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 122,
+          member_id: 16,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 123,
+          member_id: 16,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 124,
+          member_id: 16,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 125,
+          member_id: 16,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 126,
+          member_id: 16,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 127,
+          member_id: 16,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 128,
+          member_id: 16,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 129,
+          member_id: 17,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 130,
+          member_id: 17,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 131,
+          member_id: 17,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 132,
+          member_id: 17,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 133,
+          member_id: 17,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 134,
+          member_id: 17,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 135,
+          member_id: 17,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 136,
+          member_id: 17,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 137,
+          member_id: 18,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 138,
+          member_id: 18,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 139,
+          member_id: 18,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 140,
+          member_id: 18,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 141,
+          member_id: 18,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 142,
+          member_id: 18,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 143,
+          member_id: 18,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 144,
+          member_id: 18,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 145,
+          member_id: 19,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 146,
+          member_id: 19,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 147,
+          member_id: 19,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 148,
+          member_id: 19,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 149,
+          member_id: 19,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 150,
+          member_id: 19,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 151,
+          member_id: 19,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 152,
+          member_id: 19,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 153,
+          member_id: 20,
+          round_id: 9,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 154,
+          member_id: 20,
+          round_id: 10,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 155,
+          member_id: 20,
+          round_id: 11,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 156,
+          member_id: 20,
+          round_id: 12,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 157,
+          member_id: 20,
+          round_id: 13,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 158,
+          member_id: 20,
+          round_id: 14,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 159,
+          member_id: 20,
+          round_id: 15,
+          score: 55,
+          league_id: 2
+        },
+        {
+          participant_id: 160,
+          member_id: 20,
+          round_id: 16,
+          score: 55,
+          league_id: 2
+        }
 
         // { participant_id: 161, member_id: 21, round_id: 17, score: 55, league_id: 3 },
         // { participant_id: 162, member_id: 21, round_id: 18, score: 55, league_id: 3 },
