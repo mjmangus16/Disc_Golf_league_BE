@@ -570,7 +570,7 @@ exports.seed = function(knex) {
           participant_id: 81,
           member_id: 11,
           round_id: 9,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
@@ -626,7 +626,7 @@ exports.seed = function(knex) {
           participant_id: 89,
           member_id: 12,
           round_id: 9,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
@@ -1018,7 +1018,7 @@ exports.seed = function(knex) {
           participant_id: 145,
           member_id: 19,
           round_id: 9,
-          score: 59,
+          score: 56,
           league_id: 2
         },
         {
@@ -1074,7 +1074,7 @@ exports.seed = function(knex) {
           participant_id: 153,
           member_id: 20,
           round_id: 9,
-          score: 59,
+          score: 56,
           league_id: 2
         },
         {

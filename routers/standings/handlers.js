@@ -157,32 +157,35 @@ const setPoints = {
           !partsCont[key][index + 2] ||
           partsCont[key][index].score !== partsCont[key][index + 2].score
         ) {
-          console.log("working", index);
           partsCont[key][index].points = length - index;
           partsCont[key][index + 1].points = length - index;
           container.push(partsCont[key][index]);
           index = index + 2;
         } else {
           // If there is a match, count how many matches there are
-          let count = 0;
+          let count = 2;
           const getCount = () => {
             if (
               partsCont[key][index + count] &&
               partsCont[key][index].score ===
                 partsCont[key][index + count].score
             ) {
-              count++;
+              count = count + 2;
               getCount();
             }
           };
           getCount();
           // Get the number of points that should be given to each participant in part of the tie
-          let points = length - index + 1;
+          console.log("count", count);
+          let points = length - index;
           let total = 0;
-          for (let y = 0; y < count; y++) {
+          let y = 0;
+          while (y < count) {
             total = total + points - y;
+            y = y + 2;
           }
-          let adjusted = total / count;
+          let x = count / 2;
+          let adjusted = total / x;
           for (let y = 0; y < count; y++) {
             partsCont[key][index + y].points = adjusted;
             container.push(partsCont[key][index + y]);
