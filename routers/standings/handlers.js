@@ -103,7 +103,10 @@ const setPoints = {
       let index = 0;
       while (index < length - 1) {
         // check that the score doesn't match the next score
-        if (partsCont[key][index].score !== partsCont[key][index + 1].score) {
+        if (
+          !partsCont[key][index + 1] ||
+          partsCont[key][index].score !== partsCont[key][index + 1].score
+        ) {
           partsCont[key][index].points = length - index;
           container.push(partsCont[key][index]);
           index++;
@@ -143,7 +146,7 @@ const setPoints = {
     // --- SET POINTS EARNED ---
     // Need to award points to each pair of participants based on where they placed for that round.
     // Best score is awarded the length of the array.
-    // Each place after that is 2 point less than the place before it with last place taking 1 point.
+    // Each place after that is 2 point less than the place before it with last place taking 2 points.
 
     const container = [];
     for (let key in partsCont) {
@@ -151,12 +154,14 @@ const setPoints = {
       // Loop through participants from each round
       let index = 0;
       while (index < length - 1) {
-        // check that the score doesn't match the next score
+        // check that the scores of the pair does not match the score of the next pair
 
         if (
           !partsCont[key][index + 2] ||
           partsCont[key][index].score !== partsCont[key][index + 2].score
         ) {
+          // If there is no match. Award points to both participants and increase index by 2.
+          // Increasing index by 2 makes sure we are only checking pairs instead of every single participant
           partsCont[key][index].points = length - index;
           partsCont[key][index + 1].points = length - index;
           container.push(partsCont[key][index]);
@@ -176,19 +181,23 @@ const setPoints = {
           };
           getCount();
           // Get the number of points that should be given to each participant in part of the tie
-          console.log("count", count);
+          // points == the points awarded to the first pairing
           let points = length - index;
           let total = 0;
           let y = 0;
+          // since each position is awarded 2 points less than the previous, we essentially get the total by multiplying points by how many tying pairs then subtract 2 points for every tying pair.
           while (y < count) {
             total = total + points - y;
             y = y + 2;
           }
+          // count keeps track of every participant instead of each pair so we need to divide it in half to get the number of tying pairs
           let x = count / 2;
+          // get the adjusted point total that needs to be awared to each participant in the tie.
           let adjusted = total / x;
-          for (let y = 0; y < count; y++) {
-            partsCont[key][index + y].points = adjusted;
-            container.push(partsCont[key][index + y]);
+          // award those adjusted points to each participant involved
+          for (let z = 0; z < count; z++) {
+            partsCont[key][index + z].points = adjusted;
+            container.push(partsCont[key][index + z]);
           }
           // Increase the index by the count so that we skip over all the participants we just adjusted
           index = index + count;
