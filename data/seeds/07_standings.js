@@ -8,13 +8,13 @@ exports.seed = function(knex) {
         {
           standings_id: 1,
           members_count: 10,
-          type: "singles_points",
+          type: "points_A",
           league_id: 1
         },
         {
           standings_id: 2,
           members_count: 10,
-          type: "doubles_points",
+          type: "points_A",
           league_id: 2
         }
       ]);

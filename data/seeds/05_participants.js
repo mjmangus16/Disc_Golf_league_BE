@@ -682,343 +682,343 @@ exports.seed = function(knex) {
           participant_id: 97,
           member_id: 13,
           round_id: 9,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 98,
           member_id: 13,
           round_id: 10,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 99,
           member_id: 13,
           round_id: 11,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 100,
           member_id: 13,
           round_id: 12,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 101,
           member_id: 13,
           round_id: 13,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 102,
           member_id: 13,
           round_id: 14,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 103,
           member_id: 13,
           round_id: 15,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 104,
           member_id: 13,
           round_id: 16,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 105,
           member_id: 14,
           round_id: 9,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 106,
           member_id: 14,
           round_id: 10,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 107,
           member_id: 14,
           round_id: 11,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 108,
           member_id: 14,
           round_id: 12,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 109,
           member_id: 14,
           round_id: 13,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 110,
           member_id: 14,
           round_id: 14,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 111,
           member_id: 14,
           round_id: 15,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 112,
           member_id: 14,
           round_id: 16,
-          score: 55,
+          score: 56,
           league_id: 2
         },
         {
           participant_id: 113,
           member_id: 15,
           round_id: 9,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 114,
           member_id: 15,
           round_id: 10,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 115,
           member_id: 15,
           round_id: 11,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 116,
           member_id: 15,
           round_id: 12,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 117,
           member_id: 15,
           round_id: 13,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 118,
           member_id: 15,
           round_id: 14,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 119,
           member_id: 15,
           round_id: 15,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 120,
           member_id: 15,
           round_id: 16,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 121,
           member_id: 16,
           round_id: 9,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 122,
           member_id: 16,
           round_id: 10,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 123,
           member_id: 16,
           round_id: 11,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 124,
           member_id: 16,
           round_id: 12,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 125,
           member_id: 16,
           round_id: 13,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 126,
           member_id: 16,
           round_id: 14,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 127,
           member_id: 16,
           round_id: 15,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 128,
           member_id: 16,
           round_id: 16,
-          score: 55,
+          score: 57,
           league_id: 2
         },
         {
           participant_id: 129,
           member_id: 17,
           round_id: 9,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 130,
           member_id: 17,
           round_id: 10,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 131,
           member_id: 17,
           round_id: 11,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 132,
           member_id: 17,
           round_id: 12,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 133,
           member_id: 17,
           round_id: 13,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 134,
           member_id: 17,
           round_id: 14,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 135,
           member_id: 17,
           round_id: 15,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 136,
           member_id: 17,
           round_id: 16,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 137,
           member_id: 18,
           round_id: 9,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 138,
           member_id: 18,
           round_id: 10,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 139,
           member_id: 18,
           round_id: 11,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 140,
           member_id: 18,
           round_id: 12,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 141,
           member_id: 18,
           round_id: 13,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 142,
           member_id: 18,
           round_id: 14,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 143,
           member_id: 18,
           round_id: 15,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 144,
           member_id: 18,
           round_id: 16,
-          score: 55,
+          score: 58,
           league_id: 2
         },
         {
           participant_id: 145,
           member_id: 19,
           round_id: 9,
-          score: 55,
+          score: 59,
           league_id: 2
         },
         {
@@ -1074,7 +1074,7 @@ exports.seed = function(knex) {
           participant_id: 153,
           member_id: 20,
           round_id: 9,
-          score: 55,
+          score: 59,
           league_id: 2
         },
         {

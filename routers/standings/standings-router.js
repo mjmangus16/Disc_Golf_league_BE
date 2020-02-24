@@ -66,13 +66,13 @@ router.get("/results/league/:league_id/", async (req, res) => {
   const league = await dbLeagues.getLeagueById(league_id);
 
   if (league) {
-    const type = await dbStandings.getStandingsByLeagueId(league_id);
-    if (type) {
+    const standingsInfo = await dbStandings.getStandingsByLeagueId(league_id);
+    if (standingsInfo) {
       const participants = await dbParticipants.getParticipantsByLeague(
         league_id
       );
       if (participants.length > 0) {
-        let data = await handlers(type, participants);
+        let data = await handlers(standingsInfo, league.type, participants);
         res.status(200).json(data);
       } else {
         res.status(500).json({

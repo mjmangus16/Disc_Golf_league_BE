@@ -1,8 +1,6 @@
-module.exports = (type, participants) => {
-  if (type.type == "singles_points") {
-    return singles_points(participants);
-  } else if (type.type == "doubles_points") {
-    return doubles_points(participants);
+module.exports = (standingsType, leagueType, participants) => {
+  if (standingsType.type == "points_A") {
+    return points_A(participants, leagueType);
   }
 };
 
@@ -29,7 +27,7 @@ module.exports = (type, participants) => {
       - The returned data should be an array of arrays with each inner array being all the rounds played by a single member
 */
 
-const singles_points = participants => {
+const points_A = (participants, leagueType) => {
   // filter participants into rounds
   // -- create a container object to hold rounds
   let partsCont = {};
@@ -37,7 +35,7 @@ const singles_points = participants => {
   // -- loop through participants
   participants.forEach(p => {
     // ---- If object[participant_round_id] exists, pass participant into array. ELSE create that key, value pair and then pass participant into array.
-    p.score = p.score - Math.floor(Math.random() * 10);
+    // p.score = p.score - Math.floor(Math.random() * 10);
     if (!partsCont[p.round_id]) {
       partsCont[p.round_id] = [p];
     } else {
@@ -66,52 +64,11 @@ const singles_points = participants => {
     }
   });
 
-  // --- SET POINTS EARNED ---
-  // Need to award points to each participant based on where they placed for that round.
-  // Best score is awared the length of the array.
-  // Each place after that is 1 point less than the place before it with last place taking 1 point.
-
-  const container = [];
-
-  // Loop through each round
-  for (let key in partsCont) {
-    const length = partsCont[key].length;
-    // Loop through participants from each round
-    let index = 0;
-    while (index < length - 1) {
-      // check that the score doesn't match the next score
-      if (partsCont[key][index].score !== partsCont[key][index + 1].score) {
-        partsCont[key][index].points = length - index;
-        container.push(partsCont[key][index]);
-        index++;
-      } else {
-        // If there is a match, count how many matches there are
-        let count = 0;
-        const getCount = () => {
-          if (
-            partsCont[key][index + count] &&
-            partsCont[key][index].score === partsCont[key][index + count].score
-          ) {
-            count++;
-            getCount();
-          }
-        };
-        getCount();
-        // Get the number of points that should be given to each participant in part of the tie
-        let points = length - index;
-        let total = 0;
-        for (let y = 0; y < count; y++) {
-          total = total + points - y;
-        }
-        let adjusted = total / count;
-        for (let y = 0; y < count; y++) {
-          partsCont[key][index + y].points = adjusted;
-          container.push(partsCont[key][index + y]);
-        }
-        // Increase the index by the count so that we skip over all the participants we just adjusted
-        index = index + count;
-      }
-    }
+  let container;
+  if (leagueType === "Singles") {
+    container = setPoints.A_singles(partsCont);
+  } else if (leagueType === "Doubles") {
+    container = setPoints.A_doubles(partsCont);
   }
 
   // Once points are awarded accordingly we need to return the data so that each members participants are return all together seperate from the other members
@@ -128,58 +85,113 @@ const singles_points = participants => {
   }
 
   // Remove all null values from the finalArray
-  return finalArray.filter(e => e != null);
+  // return finalArray.filter(e => e != null);
+  return partsCont;
 };
 
-// const singles_points = participants => {
-//   let roundsSet = new Set();
-//   let membersSet = new Set();
-//   participants.forEach(p => {
-//     roundsSet.add(p.round_id);
-//     membersSet.add(p.member_id);
-//   });
-//   let roundsArray = Array.from(roundsSet);
-//   let membersArray = Array.from(membersSet);
-//   let scoresContainer = [];
-//   let membersContainer = [];
+const setPoints = {
+  A_singles: partsCont => {
+    // --- SET POINTS EARNED ---
+    // Need to award points to each participant based on where they placed for that round.
+    // Best score is awarded the length of the array.
+    // Each place after that is 1 point less than the place before it with last place taking 1 point.
 
-//   for (let i = 0; i < roundsArray.length; i++) {
-//     scoresContainer.push([]);
-//   }
+    const container = [];
+    for (let key in partsCont) {
+      const length = partsCont[key].length;
+      // Loop through participants from each round
+      let index = 0;
+      while (index < length - 1) {
+        // check that the score doesn't match the next score
+        if (partsCont[key][index].score !== partsCont[key][index + 1].score) {
+          partsCont[key][index].points = length - index;
+          container.push(partsCont[key][index]);
+          index++;
+        } else {
+          // If there is a match, count how many matches there are
+          let count = 0;
+          const getCount = () => {
+            if (
+              partsCont[key][index + count] &&
+              partsCont[key][index].score ===
+                partsCont[key][index + count].score
+            ) {
+              count++;
+              getCount();
+            }
+          };
+          getCount();
+          // Get the number of points that should be given to each participant in part of the tie
+          let points = length - index;
+          let total = 0;
+          for (let y = 0; y < count; y++) {
+            total = total + points - y;
+          }
+          let adjusted = total / count;
+          for (let y = 0; y < count; y++) {
+            partsCont[key][index + y].points = adjusted;
+            container.push(partsCont[key][index + y]);
+          }
+          // Increase the index by the count so that we skip over all the participants we just adjusted
+          index = index + count;
+        }
+      }
+    }
+    return container;
+  },
+  A_doubles: partsCont => {
+    // --- SET POINTS EARNED ---
+    // Need to award points to each pair of participants based on where they placed for that round.
+    // Best score is awarded the length of the array.
+    // Each place after that is 2 point less than the place before it with last place taking 1 point.
 
-//   for (let i = 0; i < membersArray.length; i++) {
-//     membersContainer.push([]);
-//   }
+    const container = [];
+    for (let key in partsCont) {
+      const length = partsCont[key].length;
+      // Loop through participants from each round
+      let index = 0;
+      while (index < length - 1) {
+        // check that the score doesn't match the next score
 
-//   roundsArray.forEach((r, i) => {
-//     participants.forEach(p => {
-//       if (r === p.round_id) {
-//         p.score = p.score - Math.floor(Math.random() * 10);
-//         scoresContainer[i].push(p);
-//       }
-//     });
-//     scoresContainer[i].sort((a, b) => {
-//       return a.score - b.score;
-//     });
-//     let length = scoresContainer[i].length;
-//     scoresContainer[i].forEach((p, i) => {
-//       p.points = length - i;
-//     });
-//   });
-
-//   membersArray.forEach((m, i) => {
-//     scoresContainer.forEach(r => {
-//       r.forEach(s => {
-//         if (s.member_id === m) {
-//           membersContainer[i].push(s);
-//         }
-//       });
-//       membersContainer[i].sort((a, b) => {
-//         return a.round_id - b.round_id;
-//       });
-//     });
-//   });
-
-//   console.log(membersArray);
-//   return membersContainer;
-// };
+        if (
+          !partsCont[key][index + 2] ||
+          partsCont[key][index].score !== partsCont[key][index + 2].score
+        ) {
+          console.log("working", index);
+          partsCont[key][index].points = length - index;
+          partsCont[key][index + 1].points = length - index;
+          container.push(partsCont[key][index]);
+          index = index + 2;
+        } else {
+          // If there is a match, count how many matches there are
+          let count = 0;
+          const getCount = () => {
+            if (
+              partsCont[key][index + count] &&
+              partsCont[key][index].score ===
+                partsCont[key][index + count].score
+            ) {
+              count++;
+              getCount();
+            }
+          };
+          getCount();
+          // Get the number of points that should be given to each participant in part of the tie
+          let points = length - index + 1;
+          let total = 0;
+          for (let y = 0; y < count; y++) {
+            total = total + points - y;
+          }
+          let adjusted = total / count;
+          for (let y = 0; y < count; y++) {
+            partsCont[key][index + y].points = adjusted;
+            container.push(partsCont[key][index + y]);
+          }
+          // Increase the index by the count so that we skip over all the participants we just adjusted
+          index = index + count;
+        }
+      }
+    }
+    return container;
+  }
+};

@@ -8,9 +8,9 @@ exports.seed = function(knex) {
         {
           league_id: 1,
           relationship_id: 1573340119487,
-          name: "WNY Winter Putting League",
+          name: "WNY Singles League",
           year: 2017,
-          type: "Putting",
+          type: "Singles",
           state: "New York",
           zip: 14224,
           location: "Phatmans",
@@ -25,9 +25,9 @@ exports.seed = function(knex) {
         {
           league_id: 2,
           relationship_id: 1573340119487,
-          name: "WNY Winter Putting League",
+          name: "WNY Random Doubles League",
           year: 2018,
-          type: "Putting",
+          type: "Doubles",
           state: "New York",
           zip: 14224,
           location: "Phatmans",
