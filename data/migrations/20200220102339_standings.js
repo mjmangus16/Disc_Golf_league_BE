@@ -3,6 +3,7 @@ exports.up = function(knex) {
     standings.increments("standings_id").unique();
     standings
       .integer("league_id")
+      .unique()
       .unsigned()
       .notNullable()
       .references("league_id")

@@ -9,6 +9,11 @@ exports.seed = function(knex) {
           standings_format_id: 1,
           name: "points_A",
           description: "This is the description for points_A"
+        },
+        {
+          standings_format_id: 2,
+          name: "points_B",
+          description: "This is the description for points_B"
         }
       ]);
     });
