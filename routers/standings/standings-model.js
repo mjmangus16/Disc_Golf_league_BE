@@ -6,11 +6,22 @@ module.exports = {
 };
 
 function getStandings() {
-  return db("standings").select("*");
+  return db("standings").join(
+    "standings_format",
+    "standings.standings_format_id",
+    "=",
+    "standings_format.standings_format_id"
+  );
 }
 
 function getStandingsByLeagueId(league_id) {
   return db("standings")
+    .join(
+      "standings_format",
+      "standings.standings_format_id",
+      "=",
+      "standings_format.standings_format_id"
+    )
     .where("league_id", league_id)
     .first();
 }

@@ -7,14 +7,12 @@ exports.seed = function(knex) {
       return knex("standings").insert([
         {
           standings_id: 1,
-          members_count: 10,
-          type: "points_A",
+          standings_format_id: 1,
           league_id: 1
         },
         {
           standings_id: 2,
-          members_count: 10,
-          type: "points_A",
+          standings_format_id: 1,
           league_id: 2
         }
       ]);

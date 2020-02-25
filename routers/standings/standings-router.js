@@ -42,7 +42,7 @@ router.get("/league/:league_id", async (req, res) => {
 
   if (league) {
     dbStandings.getStandingsByLeagueId(league_id).then(standings => {
-      if (standings.length > 0) {
+      if (standings) {
         res.status(200).json(standings);
       } else {
         res
@@ -72,7 +72,11 @@ router.get("/results/league/:league_id/", async (req, res) => {
         league_id
       );
       if (participants.length > 0) {
-        let data = await handlers(standingsInfo, league.type, participants);
+        let data = await handlers(
+          standingsInfo.name,
+          league.type,
+          participants
+        );
         res.status(200).json(data);
       } else {
         res.status(500).json({
