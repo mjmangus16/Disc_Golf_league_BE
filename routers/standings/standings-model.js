@@ -1,15 +1,19 @@
 const db = require("../../data/dbConfig");
 
 module.exports = {
-  getStandings,
+  getFormats,
   getStandingsById,
   getLeagueStandings,
   getLeagueStandingsById,
   addLeagueStandings,
-  updateLeagueStandings
+  updateLeagueStandings,
+  deleteLeagueStandings,
+  addStandingsFormat,
+  updateStandingsFormat,
+  deleteStandingsFormat
 };
 
-function getStandings() {
+function getFormats() {
   return db("standings_format").select("*");
 }
 
@@ -51,10 +55,33 @@ async function addLeagueStandings(league_id, standings_format_id) {
 
 async function updateLeagueStandings(league_id, standings_format_id) {
   let old = await getLeagueStandingsById(league_id);
-  console.log(old);
   await db("standings")
     .where("standings_id", old.standings_id)
     .update("standings_format_id", standings_format_id);
 
   return getLeagueStandingsById(league_id);
+}
+
+function deleteLeagueStandings(standings_id) {
+  return db("standings")
+    .where("standings_id", standings_id)
+    .del();
+}
+
+function addStandingsFormat(new_format) {
+  return db("standings_format").insert(new_format, "standings_format_id");
+}
+
+async function updateStandingsFormat(standings_format_id, update) {
+  await db("standings_format")
+    .where("standings_format_id", standings_format_id)
+    .update(update);
+
+  return getStandingsById(standings_format_id);
+}
+
+function deleteStandingsFormat(standings_format_id) {
+  return db("standings_format")
+    .where("standings_format_id", standings_format_id)
+    .del();
 }
