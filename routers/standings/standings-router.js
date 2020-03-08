@@ -3,6 +3,7 @@ const secrets = require("../../secrets");
 const dbStandings = require("./standings-model");
 const dbLeagues = require("../leagues/leagues-model");
 const dbParticipants = require("../participants/participants-model");
+const dbMembers = require("../members/members-model");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
 
 const handlers = require("./handlers");
@@ -102,6 +103,7 @@ router.get("/league/:league_id/results", async (req, res) => {
           league.type,
           participants
         );
+
         res.status(200).json(data);
       } else {
         res.status(500).json({
