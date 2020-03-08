@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const secrets = require("../../secrets");
+// const secrets = require("../../secrets");
 const dbStandings = require("./standings-model");
 const dbLeagues = require("../leagues/leagues-model");
 const dbParticipants = require("../participants/participants-model");
@@ -237,78 +237,78 @@ router.delete(
 // ROUTE:   /api/standings/format/add/:pw
 // DESCRIPTION: Add a new standings format to the database
 
-router.post("/formats/add/:pw", (req, res) => {
-  const { pw } = req.params;
-  const data = req.body;
+// router.post("/formats/add/:pw", (req, res) => {
+//   const { pw } = req.params;
+//   const data = req.body;
 
-  if (pw === secrets.routePW) {
-    dbStandings
-      .addStandingsFormat(data)
-      .then(() =>
-        res.status(200).json({ message: "Successfully added that format." })
-      )
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: "There was an error trying to add that format to the database"
-        });
-      });
-  } else {
-    res.status(500).json({
-      error: "You do not have access to this route"
-    });
-  }
-});
+//   if (pw === secrets.routePW) {
+//     dbStandings
+//       .addStandingsFormat(data)
+//       .then(() =>
+//         res.status(200).json({ message: "Successfully added that format." })
+//       )
+//       .catch(err => {
+//         console.log(err);
+//         res.status(500).json({
+//           error: "There was an error trying to add that format to the database"
+//         });
+//       });
+//   } else {
+//     res.status(500).json({
+//       error: "You do not have access to this route"
+//     });
+//   }
+// });
 
 // TYPE:  PUT
 // ROUTE:   /api/standings/formats/update/format/:standings_format_id/:pw
 // DESCRIPTION: Update an existing standings format
 
-router.put("/formats/update/format/:standings_format_id/:pw", (req, res) => {
-  const { standings_format_id, pw } = req.params;
-  const data = req.body;
+// router.put("/formats/update/format/:standings_format_id/:pw", (req, res) => {
+//   const { standings_format_id, pw } = req.params;
+//   const data = req.body;
 
-  if (pw === secrets.routePW) {
-    dbStandings
-      .updateStandingsFormat(standings_format_id, data)
-      .then(updated => res.status(200).json(updated))
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: "There was an error trying to add that format to the database"
-        });
-      });
-  } else {
-    res.status(500).json({
-      error: "You do not have access to this route"
-    });
-  }
-});
+//   if (pw === secrets.routePW) {
+//     dbStandings
+//       .updateStandingsFormat(standings_format_id, data)
+//       .then(updated => res.status(200).json(updated))
+//       .catch(err => {
+//         console.log(err);
+//         res.status(500).json({
+//           error: "There was an error trying to add that format to the database"
+//         });
+//       });
+//   } else {
+//     res.status(500).json({
+//       error: "You do not have access to this route"
+//     });
+//   }
+// });
 
 // TYPE:  DELETE
 // ROUTE:   /api/standings/formats/delete/format/:standings_format_id/:pw
 // DESCRIPTION: Delete an existing standings format
 
-router.delete("/formats/delete/format/:standings_format_id/:pw", (req, res) => {
-  const { standings_format_id, pw } = req.params;
+// router.delete("/formats/delete/format/:standings_format_id/:pw", (req, res) => {
+//   const { standings_format_id, pw } = req.params;
 
-  if (pw === secrets.routePW) {
-    dbStandings
-      .deleteStandingsFormat(standings_format_id)
-      .then(() =>
-        res.status(200).json({ message: "Successfully deleted that format." })
-      )
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: "There was an error trying to add that format to the database"
-        });
-      });
-  } else {
-    res.status(500).json({
-      error: "You do not have access to this route"
-    });
-  }
-});
+//   if (pw === secrets.routePW) {
+//     dbStandings
+//       .deleteStandingsFormat(standings_format_id)
+//       .then(() =>
+//         res.status(200).json({ message: "Successfully deleted that format." })
+//       )
+//       .catch(err => {
+//         console.log(err);
+//         res.status(500).json({
+//           error: "There was an error trying to add that format to the database"
+//         });
+//       });
+//   } else {
+//     res.status(500).json({
+//       error: "You do not have access to this route"
+//     });
+//   }
+// });
 
 module.exports = router;
