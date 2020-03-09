@@ -35,7 +35,7 @@ const points_A = (participants, leagueType) => {
   // -- loop through participants
   participants.forEach(p => {
     // ---- If object[participant_round_id] exists, pass participant into array. ELSE create that key, value pair and then pass participant into array.
-    p.score = p.score - Math.floor(Math.random() * 10);
+    // p.score = p.score - Math.floor(Math.random() * 10);
     if (!partsCont[p.round_id]) {
       partsCont[p.round_id] = [p];
     } else {
