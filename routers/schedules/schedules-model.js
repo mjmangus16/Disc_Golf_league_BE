@@ -25,7 +25,7 @@ function getScheduleById(schedule_id) {
 
 function addSchedule(newSchedule) {
   return db("schedules")
-    .insert(newSchedule, "round_id")
+    .insert(newSchedule, "schedule_id")
     .then(sched => {
       const [id] = sched;
       return getScheduleById(id);
