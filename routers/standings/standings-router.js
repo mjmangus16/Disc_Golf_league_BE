@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const secrets = require("../../secrets");
+// const secrets = require("../../secrets");
 const dbStandings = require("./standings-model");
 const dbLeagues = require("../leagues/leagues-model");
 const dbParticipants = require("../participants/participants-model");
@@ -260,23 +260,23 @@ router.post("/formats/add/:pw", (req, res) => {
   const { pw } = req.params;
   const data = req.body;
 
-  if (pw === secrets.routePW) {
-    dbStandings
-      .addStandingsFormat(data)
-      .then(() =>
-        res.status(200).json({ message: "Successfully added that format." })
-      )
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: "There was an error trying to add that format to the database"
-        });
+  // if (pw === secrets.routePW) {
+  dbStandings
+    .addStandingsFormat(data)
+    .then(() =>
+      res.status(200).json({ message: "Successfully added that format." })
+    )
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: "There was an error trying to add that format to the database"
       });
-  } else {
-    res.status(500).json({
-      error: "You do not have access to this route"
     });
-  }
+  // } else {
+  //   res.status(500).json({
+  //     error: "You do not have access to this route"
+  //   });
+  // }
 });
 
 // TYPE:  PUT
