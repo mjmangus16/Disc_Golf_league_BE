@@ -100,7 +100,7 @@ const setPoints = {
       const length = partsCont[key].length;
       // Loop through participants from each round
       let index = 0;
-      while (index < length - 1) {
+      while (index < length) {
         // check that the score doesn't match the next score
         if (
           !partsCont[key][index + 1] ||
