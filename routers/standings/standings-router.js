@@ -4,6 +4,8 @@ const dbStandings = require("./standings-model");
 const dbLeagues = require("../leagues/leagues-model");
 const dbParticipants = require("../participants/participants-model");
 const dbMembers = require("../members/members-model");
+const restricted = require("../../middleware/restricted");
+const restrictedAdmin = require("../../middleware/restrictedAdmin");
 const checkLeagueOwner = require("../../middleware/checkLeagueOwner");
 
 const handlers = require("./handlers");
@@ -129,7 +131,7 @@ router.get("/league/:league_id/results", async (req, res) => {
 
 router.post(
   "/league/:league_id/add/format/:standings_format_id",
-  checkLeagueOwner,
+  restrictedAdmin,
   async (req, res) => {
     const { league_id, standings_format_id } = req.params;
     const league = await dbLeagues.getLeagueById(league_id);
@@ -138,20 +140,26 @@ router.post(
     );
 
     if (league) {
-      if (standings_format) {
-        dbStandings
-          .addLeagueStandings(league_id, standings_format_id)
-          .then(leagueStandings => res.json(leagueStandings))
-          .catch(err => {
-            console.log(err);
-            res.status(500).json({
-              error:
-                "There was an error trying to connect that standings format to your league."
+      if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+        if (standings_format) {
+          dbStandings
+            .addLeagueStandings(league_id, standings_format_id)
+            .then(leagueStandings => res.json(leagueStandings))
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error:
+                  "There was an error trying to connect that standings format to your league."
+              });
             });
+        } else {
+          res.status(500).json({
+            error: "We could not find that standings format"
           });
+        }
       } else {
         res.status(500).json({
-          error: "We could not find that standings format"
+          error: "You do not have admin privileges for this league"
         });
       }
     } else {
@@ -168,29 +176,35 @@ router.post(
 
 router.put(
   "/league/:league_id/update/format/:standings_format_id",
-  checkLeagueOwner,
+  restrictedAdmin,
   async (req, res) => {
+    console.log("WORLIOMG");
     const { league_id, standings_format_id } = req.params;
     const league = await dbLeagues.getLeagueById(league_id);
     const standings_format = await dbStandings.getStandingsById(
       standings_format_id
     );
-
     if (league) {
-      if (standings_format) {
-        dbStandings
-          .updateLeagueStandings(league_id, standings_format_id)
-          .then(leagueStandings => res.status(200).json(leagueStandings))
-          .catch(err => {
-            console.log(err);
-            res.status(500).json({
-              error:
-                "There was an error trying to connect that standings format to your league."
+      if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+        if (standings_format) {
+          dbStandings
+            .updateLeagueStandings(league_id, standings_format_id)
+            .then(leagueStandings => res.status(200).json(leagueStandings))
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error:
+                  "There was an error trying to connect that standings format to your league."
+              });
             });
+        } else {
+          res.status(500).json({
+            error: "We could not find that standings format"
           });
+        }
       } else {
         res.status(500).json({
-          error: "We could not find that standings format"
+          error: "You do not have admin privileges for this league"
         });
       }
     } else {
@@ -207,7 +221,7 @@ router.put(
 
 router.delete(
   "/league/:league_id/delete",
-  checkLeagueOwner,
+  restrictedAdmin,
   async (req, res) => {
     const { league_id } = req.params;
     const league = await dbLeagues.getLeagueById(league_id);
@@ -215,14 +229,19 @@ router.delete(
 
     if (league) {
       if (standings) {
-        dbStandings.deleteLeagueStandings(standings.standings_id).then(() =>
-          res.status(200).json({
-            message: "Successfully removed that leagues standings format"
-          })
-        );
-      } else {
+        if (checkLeagueOwner(league.owner_id, req.jwt.user_id)) {
+          dbStandings.deleteLeagueStandings(standings.standings_id).then(() =>
+            res.status(200).json({
+              message: "Successfully removed that leagues standings format"
+            })
+          );
+        } else {
+          res.status(500).json({
+            error: "We could not find any standings connections for this league"
+          });
+        }
         res.status(500).json({
-          error: "We could not find any standings connections for this league"
+          error: "You do not have admin privileges for this league"
         });
       }
     } else {
