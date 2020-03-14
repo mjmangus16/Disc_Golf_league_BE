@@ -2,7 +2,7 @@ exports.up = function(knex) {
   return knex.schema.createTable("standings_format", standings => {
     standings.increments("standings_format_id").unique();
     standings.string("name");
-    standings.string("description", 350);
+    standings.string("description", 500);
   });
 };
 
