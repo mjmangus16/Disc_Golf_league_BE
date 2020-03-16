@@ -65,9 +65,9 @@ const points_A = (participants, leagueType) => {
   });
 
   let container;
-  if (leagueType === "Singles") {
+  if (leagueType === "Singles" || leagueType === "Singles Travel") {
     container = setPoints.A_singles(partsCont);
-  } else if (leagueType === "Doubles") {
+  } else if (leagueType === "Doubles" || leagueType === "Doubles Travel") {
     container = setPoints.A_doubles(partsCont);
   }
 

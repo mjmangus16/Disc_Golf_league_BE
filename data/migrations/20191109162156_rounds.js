@@ -11,8 +11,6 @@ exports.up = function(knex) {
       .onDelete("CASCADE");
     rounds.date("date").notNullable();
     rounds.integer("round_num").notNullable();
-    rounds.string("type");
-    rounds.string("location");
   });
 };
 
