@@ -65,11 +65,13 @@ const points_A = (participants, leagueType) => {
   });
 
   let container;
-  if (leagueType === "Singles" || leagueType === "Singles Travel") {
-    container = setPoints.A_singles(partsCont);
-  } else if (leagueType === "Doubles" || leagueType === "Doubles Travel") {
-    container = setPoints.A_doubles(partsCont);
-  }
+  // if (leagueType === "Singles" || leagueType === "Singles Travel") {
+  //   container = setPoints.A_singles(partsCont);
+  // } else if (leagueType === "Doubles" || leagueType === "Doubles Travel") {
+  //   container = setPoints.A_doubles(partsCont);
+  // }
+
+  container = setPoints.A_singles(partsCont);
 
   // Once points are awarded accordingly we need to return the data so that each members participants are return all together seperate from the other members
   let finalArray = [];
