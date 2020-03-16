@@ -1,5 +1,5 @@
 module.exports = (formatName, leagueType, participants) => {
-  if (formatName == "points_A") {
+  if (formatName == "Points") {
     return points_A(participants, leagueType);
   }
 };
