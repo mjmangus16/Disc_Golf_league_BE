@@ -152,7 +152,8 @@ const setPoints = {
       const length = partsCont[key].length;
       // Loop through participants from each round
       let index = 0;
-      while (index < length - 1) {
+      while (index < length - 2) {
+        console.log(index, length - 2);
         // check that the scores of the pair does not match the score of the next pair
 
         if (
@@ -164,10 +165,11 @@ const setPoints = {
           partsCont[key][index].points = length - index;
           partsCont[key][index + 1].points = length - index;
           container.push(partsCont[key][index]);
+          container.push(partsCont[key][index + 1]);
           index = index + 2;
         } else {
           // If there is a match, count how many matches there are
-          let count = 2;
+          let count = 0;
           const getCount = () => {
             if (
               partsCont[key][index + count] &&
@@ -178,7 +180,9 @@ const setPoints = {
               getCount();
             }
           };
+
           getCount();
+          console.log(count);
           // Get the number of points that should be given to each participant in part of the tie
           // points == the points awarded to the first pairing
           let points = length - index;
@@ -198,8 +202,11 @@ const setPoints = {
             partsCont[key][index + z].points = adjusted;
             container.push(partsCont[key][index + z]);
           }
+
           // Increase the index by the count so that we skip over all the participants we just adjusted
           index = index + count;
+          // console.log("-------INDEX------", index);
+          // console.log(partsCont);
         }
       }
     }
